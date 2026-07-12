@@ -4,18 +4,19 @@ from PyInstaller.utils.hooks import collect_all
 
 datas_comtypes, binaries_comtypes, hiddenimports_comtypes = collect_all('comtypes')
 datas_pycaw, binaries_pycaw, hiddenimports_pycaw = collect_all('pycaw')
+datas_ctk, binaries_ctk, hiddenimports_ctk = collect_all('customtkinter')
 
 a = Analysis(
     ['switch_audio.py'],
     pathex=[],
-    binaries=binaries_comtypes + binaries_pycaw,
-    datas=datas_comtypes + datas_pycaw,
+    binaries=binaries_comtypes + binaries_pycaw + binaries_ctk,
+    datas=datas_comtypes + datas_pycaw + datas_ctk,
     hiddenimports=[
         'pycaw',
         'pycaw.pycaw',
         'pycaw.constants',
         'pycaw.utils',
-    ] + hiddenimports_comtypes + hiddenimports_pycaw,
+    ] + hiddenimports_comtypes + hiddenimports_pycaw + hiddenimports_ctk,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

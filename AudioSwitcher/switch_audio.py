@@ -3,7 +3,6 @@ import subprocess
 import keyboard
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import ttk
 import time
 import sys
 import warnings
@@ -15,15 +14,61 @@ import comtypes
 from pycaw.pycaw import AudioUtilities
 from pycaw.constants import DEVICE_STATE, EDataFlow
 
+import customtkinter as ctk
+
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
 else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 CONFIG_FILE = os.path.join(BASE_DIR, "app_config.txt")
+ICON_PATH = os.path.join(BASE_DIR, "app_icon.ico")
 
 last_switch_time = 0
 _com_thread_local = threading.local()
+
+# ----------------------------------------------------------------------
+# デザイントークン — アナログ・ミキシングコンソール／パッチベイをモチーフにした
+# グラファイト×カッパー（銅）配色。設定画面とトースト通知の両方で共有する。
+# ----------------------------------------------------------------------
+COLOR_BG          = "#16151a"  # アプリ全体の背景（暖色寄りの黒鉛色）
+COLOR_PANEL       = "#1d1b21"  # カードパネル
+COLOR_INPUT       = "#26232b"  # 入力欄・コンボボックス
+COLOR_BORDER      = "#322e38"  # 通常の境界線
+COLOR_ACCENT      = "#d68a4c"  # カッパー（VUメーターの針をイメージしたアクセント）
+COLOR_ACCENT_HOVER = "#e6a05f"
+COLOR_ACCENT_DIM  = "#5c4530"  # アクセントの控えめ版（非アクティブ表示用）
+COLOR_TEXT_MAIN   = "#f2ece1"  # 暖色寄りのオフホワイト
+COLOR_TEXT_SUB    = "#8f8878"  # 落ち着いたタウプグレー
+COLOR_TEXT_FAINT  = "#5c5850"
+
+FONT_DISPLAY = ("Segoe UI Semibold", 17)
+FONT_LABEL   = ("Segoe UI", 10, "bold")
+FONT_BODY    = ("Segoe UI", 10)
+FONT_MONO    = ("Consolas", 11, "bold")
+
+
+def draw_routing_indicator(canvas, active_side):
+    """A/Bどちらのレイヤーが現在アクティブかをパッチベイ風に可視化するサイン要素"""
+    canvas.delete("all")
+    w = int(canvas["width"])
+    h = int(canvas["height"])
+    cy = h // 2
+    ax, bx = 30, w - 30
+    r = 10
+
+    canvas.create_line(ax, cy, bx, cy, fill=COLOR_BORDER, width=2)
+
+    for label, x in (("A", ax), ("B", bx)):
+        is_active = (active_side == label)
+        if is_active:
+            canvas.create_oval(x - r - 5, cy - r - 5, x + r + 5, cy + r + 5,
+                                outline=COLOR_ACCENT_DIM, width=2)
+        fill = COLOR_ACCENT if is_active else COLOR_PANEL
+        outline = COLOR_ACCENT if is_active else COLOR_TEXT_FAINT
+        canvas.create_oval(x - r, cy - r, x + r, cy + r, fill=fill, outline=outline, width=2)
+        text_color = COLOR_BG if is_active else COLOR_TEXT_SUB
+        canvas.create_text(x, cy, text=label, fill=text_color, font=("Segoe UI", 9, "bold"))
 
 
 def ensure_com_initialized():
@@ -137,66 +182,63 @@ def manage_startup(startup_val):
         tk.messagebox.showerror("Startup Error", f"Failed to update startup folder: {str(e)}")
 
 def show_toast(device_name):
-    """【極限解像度】画面最右下（時計完全オーバーレイ） ＋ フェードアニメーション"""
+    """右下に浮かぶ角丸トースト通知（透過キーカラーで実際の角丸を実現）＋フェードアニメーション"""
     toast = tk.Tk()
-    toast.overrideredirect(True)  
-    toast.attributes("-topmost", True)  
-    toast.attributes("-alpha", 0.0)  
-    
-    BG_COLOR = "#0f131a"
-    BORDER_COLOR = "#1e293b"
-    TEXT_MAIN = "#f8fafc"
-    TEXT_SUB = "#3b82f6"  
+    toast.overrideredirect(True)
+    toast.attributes("-topmost", True)
+    toast.attributes("-alpha", 0.0)
 
-    toast.configure(bg=BG_COLOR)
+    TRANSPARENT_KEY = "#010203"  # 実際のUIでは使わない色をウィンドウの透過キーにする
+    toast.configure(bg=TRANSPARENT_KEY)
+    toast.attributes("-transparentcolor", TRANSPARENT_KEY)
 
-    frame = tk.Frame(toast, bg=BG_COLOR, highlightbackground=BORDER_COLOR, highlightthickness=1, bd=0)
-    frame.pack(fill="both", expand=True)
-
-    label_title = tk.Label(frame, text="AUDIO ROUTING LAYER SWITCHED", bg=BG_COLOR, fg=TEXT_SUB, font=("Segoe UI", 7, "bold"), anchor="w")
-    label_title.pack(fill="x", padx=14, pady=(10, 2))
-
-    if len(device_name) > 32:
-        display_text = device_name[:30] + "..."
-    else:
-        display_text = device_name
-
-    label_body = tk.Label(frame, text=f"Switched to: {display_text}", bg=BG_COLOR, fg=TEXT_MAIN, font=("Segoe UI", 9, "bold"), anchor="w")
-    label_body.pack(fill="x", padx=14, pady=(0, 12))
-
-    toast.update_idletasks()
-    width = 310
-    height = 62
+    width, height = 320, 68
     screen_width = toast.winfo_screenwidth()
     screen_height = toast.winfo_screenheight()
-    
-    # 💥 【時計完全隠し配置】マージンをすべて排除し、物理的な画面の右下最奥にハメ込む
-    x = screen_width - width
-    y = screen_height - height
+    x = screen_width - width - 6
+    y = screen_height - height - 6
     toast.geometry(f"{width}x{height}+{x}+{y}")
+
+    canvas = tk.Canvas(toast, width=width, height=height, bg=TRANSPARENT_KEY, highlightthickness=0)
+    canvas.pack(fill="both", expand=True)
+
+    def rounded_rect(cv, x1, y1, x2, y2, r, **kwargs):
+        points = [
+            x1 + r, y1, x2 - r, y1, x2, y1, x2, y1 + r, x2, y2 - r, x2, y2,
+            x2 - r, y2, x1 + r, y2, x1, y2, x1, y2 - r, x1, y1 + r, x1, y1,
+        ]
+        return cv.create_polygon(points, smooth=True, **kwargs)
+
+    rounded_rect(canvas, 1, 1, width - 1, height - 1, 16, fill=COLOR_PANEL, outline=COLOR_BORDER, width=1)
+    # 左端のカッパーのアクセントバー
+    canvas.create_rectangle(0, 12, 4, height - 12, fill=COLOR_ACCENT, outline="")
+
+    canvas.create_text(22, 22, anchor="w", text="AUDIO ROUTING SWITCHED",
+                        fill=COLOR_ACCENT, font=("Segoe UI", 8, "bold"))
+
+    display_text = device_name if len(device_name) <= 34 else device_name[:32] + "..."
+    canvas.create_text(22, 44, anchor="w", text=display_text,
+                        fill=COLOR_TEXT_MAIN, font=("Segoe UI", 10, "bold"))
 
     current_alpha = 0.0
 
     def fade_in():
         nonlocal current_alpha
-        if current_alpha < 0.95:
-            current_alpha += 0.1  
-            toast.attributes("-alpha", min(current_alpha, 0.95))
-            toast.after(20, fade_in)
+        if current_alpha < 0.96:
+            current_alpha += 0.12
+            toast.attributes("-alpha", min(current_alpha, 0.96))
+            toast.after(15, fade_in)
         else:
-            toast.after(3000, start_fade_out)
-
-    def start_fade_out():
-        fade_out()
+            toast.after(2600, fade_out)
 
     def fade_out():
         nonlocal current_alpha
         if current_alpha > 0.0:
-            current_alpha -= 0.05  
+            current_alpha -= 0.06
             toast.attributes("-alpha", max(current_alpha, 0.0))
-            toast.after(20, fade_out)
+            toast.after(15, fade_out)
         else:
-            toast.destroy()  
+            toast.destroy()
 
     toast.after(10, fade_in)
     toast.mainloop()
@@ -252,68 +294,106 @@ def open_setting_window():
             "再生デバイスを取得できませんでした。\nオーディオドライバの状態を確認してください。"
         )
         devices = ["Speakers", "Headphones"]
-    
+
     saved_a, saved_b, saved_key, saved_startup = load_config()
     devices_b_options = ["Select device..."] + devices
 
-    root = tk.Tk()
+    ctk.set_appearance_mode("dark")
+
+    root = ctk.CTk(fg_color=COLOR_BG)
     root.title("AudioSwitcher")
-    root.geometry("520x440") 
+    root.geometry("540x560")
     root.resizable(False, False)
     root.attributes("-topmost", True)
-    
-    BG_COLOR = "#07090e"         
-    CARD_COLOR = "#0f131a"       
-    INPUT_BG = "#141a24"         
-    TEXT_MAIN = "#f8fafc"        
-    TEXT_SUB = "#64748b"         
-    BORDER_MAIN = "#1e293b"      
-    BORDER_FOCUS = "#3b82f6"     
-
-    root.configure(bg=BG_COLOR)
-
-    style = ttk.Style()
-    style.theme_use('clam')  
-    style.configure(".", background=BG_COLOR, foreground=TEXT_MAIN, font=("Segoe UI", 9))
-    style.configure("TCombobox", fieldbackground=INPUT_BG, background=INPUT_BG, foreground=TEXT_MAIN, arrowcolor=TEXT_SUB, borderwidth=0, padding=6)
-    style.map("TCombobox", fieldbackground=[('readonly', INPUT_BG)], foreground=[('readonly', TEXT_MAIN)])
-    style.configure("TCheckbutton", background=BG_COLOR, foreground=TEXT_SUB, font=("Segoe UI", 9))
-    style.map("TCheckbutton", foreground=[('selected', TEXT_MAIN)], background=[('active', BG_COLOR)])
+    if os.path.exists(ICON_PATH):
+        try:
+            root.iconbitmap(ICON_PATH)
+        except Exception:
+            pass
 
     # ヘッダー
-    header = tk.Frame(root, bg=BG_COLOR)
-    header.pack(fill="x", padx=28, pady=(28, 16))
-    tk.Label(header, text="AudioSwitcher", bg=BG_COLOR, fg=TEXT_MAIN, font=("Segoe UI", 14, "bold"), anchor="w").pack(fill="x")
-    tk.Label(header, text="Set active routing layers and global trigger shortcut.", bg=BG_COLOR, fg=TEXT_SUB, font=("Segoe UI", 9), anchor="w").pack(fill="x", pady=(2, 0))
+    header = ctk.CTkFrame(root, fg_color="transparent")
+    header.pack(fill="x", padx=30, pady=(30, 18))
+    ctk.CTkLabel(header, text="AudioSwitcher", font=FONT_DISPLAY,
+                 text_color=COLOR_TEXT_MAIN, anchor="w").pack(fill="x")
+    ctk.CTkLabel(header, text="信号の経路（ルーティング）をワンショートカットで切り替える。",
+                 font=FONT_BODY, text_color=COLOR_TEXT_SUB, anchor="w").pack(fill="x", pady=(2, 0))
 
-    # コンテナ
-    container = tk.Frame(root, bg=CARD_COLOR, highlightbackground=BORDER_MAIN, highlightthickness=1, bd=0)
-    container.pack(fill="both", expand=True, padx=28, pady=0)
+    # ルーティング・インジケーター（現在どちらのレイヤーがアクティブかをパッチベイ風に表示）
+    indicator_panel = ctk.CTkFrame(root, fg_color=COLOR_PANEL, corner_radius=14,
+                                    border_width=1, border_color=COLOR_BORDER)
+    indicator_panel.pack(fill="x", padx=30, pady=(0, 18))
 
-    # デバイス A
-    tk.Label(container, text="DEVICE LAYER A", bg=CARD_COLOR, fg=TEXT_SUB, font=("Segoe UI", 8, "bold"), anchor="w").pack(fill="x", padx=22, pady=(18, 4))
-    combo_a = ttk.Combobox(container, values=devices, width=50, state="readonly")
-    combo_a.pack(fill="x", padx=22, pady=(0, 14))
+    indicator_canvas = tk.Canvas(indicator_panel, width=220, height=56,
+                                  bg=COLOR_PANEL, highlightthickness=0)
+    indicator_canvas.pack(pady=(14, 4))
+
+    status_label = ctk.CTkLabel(indicator_panel, font=("Segoe UI", 9), text_color=COLOR_TEXT_SUB)
+    status_label.pack(pady=(0, 12))
+
+    def refresh_indicator():
+        a, b = combo_a.get(), combo_b.get()
+        if current_default and current_default == a:
+            active_side = "A"
+        elif current_default and current_default == b:
+            active_side = "B"
+        else:
+            active_side = None
+        draw_routing_indicator(indicator_canvas, active_side)
+        status_label.configure(
+            text=f"現在の既定デバイス: {current_default}" if current_default
+            else "現在の既定デバイスを検出できませんでした"
+        )
+
+    # デバイス設定カード
+    container = ctk.CTkFrame(root, fg_color=COLOR_PANEL, corner_radius=14,
+                              border_width=1, border_color=COLOR_BORDER)
+    container.pack(fill="both", expand=True, padx=30, pady=0)
+
+    def section_label(parent, text):
+        ctk.CTkLabel(parent, text=text, font=FONT_LABEL, text_color=COLOR_TEXT_SUB,
+                     anchor="w").pack(fill="x", padx=24, pady=(18, 6))
+
+    combo_kwargs = dict(
+        state="readonly", fg_color=COLOR_INPUT, border_color=COLOR_BORDER, border_width=1,
+        button_color=COLOR_INPUT, button_hover_color=COLOR_ACCENT_DIM,
+        dropdown_fg_color=COLOR_INPUT, dropdown_text_color=COLOR_TEXT_MAIN,
+        dropdown_hover_color=COLOR_ACCENT_DIM, text_color=COLOR_TEXT_MAIN,
+        corner_radius=8, height=36,
+    )
+
+    section_label(container, "DEVICE LAYER A")
+    combo_a = ctk.CTkComboBox(container, values=devices, **combo_kwargs)
+    combo_a.pack(fill="x", padx=24, pady=(0, 16))
     if saved_a in devices: combo_a.set(saved_a)
-    elif current_default in devices: combo_a.set(current_default)  
-    else: combo_a.current(0)
+    elif current_default in devices: combo_a.set(current_default)
+    else: combo_a.set(devices[0])
 
-    # デバイス B
-    tk.Label(container, text="DEVICE LAYER B", bg=CARD_COLOR, fg=TEXT_SUB, font=("Segoe UI", 8, "bold"), anchor="w").pack(fill="x", padx=22, pady=(4, 4))
-    combo_b = ttk.Combobox(container, values=devices_b_options, width=50, state="readonly")
-    combo_b.pack(fill="x", padx=22, pady=(0, 14))
+    section_label(container, "DEVICE LAYER B")
+    combo_b = ctk.CTkComboBox(container, values=devices_b_options, **combo_kwargs)
+    combo_b.pack(fill="x", padx=24, pady=(0, 16))
     if saved_b in devices_b_options and saved_b != "Select device...": combo_b.set(saved_b)
-    else: combo_b.current(0)  
+    else: combo_b.set(devices_b_options[0])
+
+    combo_a.configure(command=lambda _=None: refresh_indicator())
+    combo_b.configure(command=lambda _=None: refresh_indicator())
+    refresh_indicator()
 
     # ホットキー
-    tk.Label(container, text="GLOBAL TRIGGER HOTKEY", bg=CARD_COLOR, fg=TEXT_SUB, font=("Segoe UI", 8, "bold"), anchor="w").pack(fill="x", padx=22, pady=(4, 4))
-    key_border_box = tk.Frame(container, bg=INPUT_BG, highlightbackground=BORDER_MAIN, highlightthickness=1, bd=0)
-    key_border_box.pack(fill="x", padx=22, pady=(0, 18))
-    entry_key = tk.Entry(key_border_box, bg=INPUT_BG, fg=TEXT_MAIN, insertbackground=TEXT_MAIN, bd=0, highlightthickness=0, font=("Consolas", 10, "bold"), justify="center", state="readonly", readonlybackground=INPUT_BG)
-    entry_key.pack(fill="both", padx=10, ipady=7)
-    entry_key.config(state="normal")
+    section_label(container, "GLOBAL TRIGGER HOTKEY")
+    key_box = ctk.CTkFrame(container, fg_color=COLOR_INPUT, corner_radius=8,
+                            border_width=1, border_color=COLOR_BORDER)
+    key_box.pack(fill="x", padx=24, pady=(0, 20))
+
+    entry_key = ctk.CTkEntry(
+        key_box, font=FONT_MONO, justify="center", state="readonly",
+        fg_color=COLOR_INPUT, text_color=COLOR_TEXT_MAIN,
+        border_width=0, corner_radius=8,
+    )
+    entry_key.pack(fill="x", padx=2, pady=2, ipady=6)
+    entry_key.configure(state="normal")
     entry_key.insert(0, saved_key)
-    entry_key.config(state="readonly")
+    entry_key.configure(state="readonly")
 
     current_keys = set()
     is_recording = False
@@ -323,8 +403,8 @@ def open_setting_window():
         nonlocal is_recording, temp_shortcut
         if not is_recording: return "break"
         if event.keysym == "Escape":
-            temp_shortcut = saved_key  
-            root.focus_set()           
+            temp_shortcut = saved_key
+            root.focus_set()
             return "break"
         key_map = {"Control_L": "ctrl", "Control_R": "ctrl", "Alt_L": "alt", "Alt_R": "alt", "Shift_L": "shift", "Shift_R": "shift", "Win_L": "win", "Win_R": "win"}
         key_name = key_map.get(event.keysym, event.keysym.lower())
@@ -336,10 +416,10 @@ def open_setting_window():
         for k in sorted(current_keys):
             if k not in ["ctrl", "alt", "shift", "win"]: ordered_combination.append(k)
         temp_shortcut = "+".join(ordered_combination)
-        entry_key.config(state="normal")
-        entry_key.delete(0, tk.END)
+        entry_key.configure(state="normal")
+        entry_key.delete(0, "end")
         entry_key.insert(0, temp_shortcut)
-        entry_key.config(state="readonly")
+        entry_key.configure(state="readonly")
         return "break"
 
     def on_key_release(event):
@@ -347,46 +427,52 @@ def open_setting_window():
         if not is_recording: return "break"
         if temp_shortcut and temp_shortcut != "Press Keys...":
             is_recording = False
-            root.focus_set() 
+            root.focus_set()
         return "break"
 
     def on_focus_in(e):
         nonlocal is_recording, current_keys
         is_recording = True
         current_keys.clear()
-        key_border_box.config(highlightbackground=BORDER_FOCUS)
-        entry_key.config(state="normal")
-        entry_key.delete(0, tk.END)
-        entry_key.insert(0, "Press Keys...")  
-        entry_key.config(state="readonly", fg=BORDER_FOCUS)
+        key_box.configure(border_color=COLOR_ACCENT)
+        entry_key.configure(state="normal")
+        entry_key.delete(0, "end")
+        entry_key.insert(0, "Press Keys...")
+        entry_key.configure(state="readonly", text_color=COLOR_ACCENT)
 
     def on_focus_out(e):
         nonlocal is_recording, temp_shortcut
         is_recording = False
-        key_border_box.config(highlightbackground=BORDER_MAIN)
-        entry_key.config(fg=TEXT_MAIN)
-        entry_key.config(state="normal")
-        entry_key.delete(0, tk.END)
+        key_box.configure(border_color=COLOR_BORDER)
+        entry_key.configure(text_color=COLOR_TEXT_MAIN)
+        entry_key.configure(state="normal")
+        entry_key.delete(0, "end")
         if temp_shortcut == "Press Keys..." or not temp_shortcut:
             entry_key.insert(0, saved_key)
             temp_shortcut = saved_key
         else:
             entry_key.insert(0, temp_shortcut)
-        entry_key.config(state="readonly")
-        
+        entry_key.configure(state="readonly")
+
     entry_key.bind("<FocusIn>", on_focus_in)
     entry_key.bind("<FocusOut>", on_focus_out)
     entry_key.bind("<KeyPress>", on_key_press)
     entry_key.bind("<KeyRelease>", on_key_release)
 
     # ボトム
-    bottom_bar = tk.Frame(root, bg=BG_COLOR)
-    bottom_bar.pack(fill="x", padx=28, pady=(18, 28))
-    startup_var = tk.StringVar(value=saved_startup)
-    check_startup = ttk.Checkbutton(bottom_bar, text="Start on boot", variable=startup_var, onvalue="1", offvalue="0", style="TCheckbutton")
-    check_startup.pack(anchor="w", side="left", pady=5)
+    bottom_bar = ctk.CTkFrame(root, fg_color="transparent")
+    bottom_bar.pack(fill="x", padx=30, pady=(18, 30))
 
-    btn_frame = tk.Frame(bottom_bar, bg=BG_COLOR)
+    startup_var = tk.StringVar(value=saved_startup)
+    switch_startup = ctk.CTkSwitch(
+        bottom_bar, text="Start on boot", variable=startup_var, onvalue="1", offvalue="0",
+        font=FONT_BODY, text_color=COLOR_TEXT_SUB,
+        fg_color=COLOR_INPUT, progress_color=COLOR_ACCENT,
+        button_color=COLOR_TEXT_MAIN, button_hover_color=COLOR_ACCENT_HOVER,
+    )
+    switch_startup.pack(side="left", anchor="w")
+
+    btn_frame = ctk.CTkFrame(bottom_bar, fg_color="transparent")
     btn_frame.pack(side="right")
 
     def on_save_only():
@@ -397,7 +483,12 @@ def open_setting_window():
         root.destroy()
         sys.exit(0)
 
-    btn_save_only = tk.Button(btn_frame, text="Save only", command=on_save_only, bg=BG_COLOR, fg=TEXT_SUB, activebackground=INPUT_BG, activeforeground=TEXT_MAIN, font=("Segoe UI", 9, "bold"), bd=1, relief="solid", highlightthickness=0, highlightbackground=BORDER_MAIN, cursor="hand2", padx=14, pady=5)
+    btn_save_only = ctk.CTkButton(
+        btn_frame, text="Save only", command=on_save_only,
+        fg_color="transparent", hover_color=COLOR_INPUT, text_color=COLOR_TEXT_SUB,
+        border_width=1, border_color=COLOR_BORDER, corner_radius=8,
+        font=FONT_LABEL, width=100, height=36,
+    )
     btn_save_only.pack(side="left", padx=(0, 10))
 
     def on_save_and_run():
@@ -408,17 +499,12 @@ def open_setting_window():
         root.destroy()
         start_backend()
 
-    btn_save_run = tk.Button(btn_frame, text="Save & Run", command=on_save_and_run, bg=TEXT_MAIN, fg=BG_COLOR, activebackground=TEXT_MAIN, activeforeground=BG_COLOR, font=("Segoe UI", 9, "bold"), bd=0, relief="flat", cursor="hand2", padx=18, pady=6)
+    btn_save_run = ctk.CTkButton(
+        btn_frame, text="Save & Run", command=on_save_and_run,
+        fg_color=COLOR_ACCENT, hover_color=COLOR_ACCENT_HOVER, text_color=COLOR_BG,
+        corner_radius=8, font=FONT_LABEL, width=120, height=36,
+    )
     btn_save_run.pack(side="right")
-
-    def on_enter_only(e): btn_save_only.config(fg=TEXT_MAIN, bg=INPUT_BG)
-    def on_leave_only(e): btn_save_only.config(fg=TEXT_SUB, bg=BG_COLOR)
-    def on_enter_run(e):  btn_save_run.config(bg="#e2e8f0")
-    def on_leave_run(e):  btn_save_run.config(bg=TEXT_MAIN)
-    btn_save_only.bind("<Enter>", on_enter_only)
-    btn_save_only.bind("<Leave>", on_leave_only)
-    btn_save_run.bind("<Enter>", on_enter_run)
-    btn_save_run.bind("<Leave>", on_leave_run)
 
     root.mainloop()
 
