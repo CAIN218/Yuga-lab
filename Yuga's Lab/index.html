@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Yuga's Lab</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Monsieur+La+Doulaise&display=swap');
+
+            html, body, #wrapper {
+                background-color: #0b0e11 !important;
+                background-image: none !important;
+                font-family: "Inter", "Noto Sans JP", sans-serif !important;
+            }
+            
+            .bg, #bg {
+                display: none !important;
+            }
+
+            #custom-parallax-bg {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 100vh !important;
+                background-image: url("images/bg.jpg") !important;
+                background-size: cover !important;
+                background-repeat: no-repeat !important;
+                background-position: center 40% !important;
+                z-index: 0 !important;
+                transform: scale(1.15) !important;
+                will-change: background-position;
+            }
+            
+            #wrapper {
+                position: relative !important;
+                z-index: 2 !important;
+                background: transparent !important;
+            }
+
+            .global-header {
+                position: fixed; top: 0; left: 0; width: 100%; height: 60px;
+                background: rgba(11, 14, 17, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; justify-content: space-between; align-items: center;
+                padding: 0 2.5rem; box-sizing: border-box; z-index: 100;
+                opacity: 0; transform: translateY(-10px);
+                transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+                pointer-events: none;
+            }
+            .global-header.show-header {
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
+            
+            .header-logo-svg-wrapper { text-decoration: none !important; border-bottom: none !important; display: inline-block; height: 45px; }
+            .header-signature-svg { width: 145px; height: auto; overflow: visible; }
+            .signature-text-node { font-family: 'Monsieur La Doulaise', cursive !important; font-size: 32px; fill: #ffffff; opacity: 0.95; }
+            
+            .menu-trigger-btn {
+                background: transparent !important; border: none !important; cursor: pointer;
+                display: flex; flex-direction: column; align-items: flex-end; justify-content: center; gap: 7px;
+                width: 30px; height: 22px; padding: 0 !important; opacity: 0.8 !important; transition: opacity 0.2s ease;
+            }
+            .menu-trigger-btn:hover { opacity: 1 !important; }
+            .menu-trigger-btn span { display: block; height: 1px; background-color: #ffffff !important; }
+            .menu-trigger-btn span:nth-child(1) { width: 100%; }
+            .menu-trigger-btn span:nth-child(2) { width: 60%; transition: width 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+            .menu-trigger-btn:hover span:nth-child(2) { width: 100%; }
+
+            .side-nav {
+                position: fixed; top: 0; right: -290px; width: 290px; height: 100vh;
+                background: rgba(11, 14, 17, 0.97); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+                z-index: 200; padding: 6rem 2.2rem; transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                border-left: 1px solid rgba(255, 255, 255, 0.08); box-shadow: -15px 0 45px rgba(0, 0, 0, 0.6); box-sizing: border-box;
+            }
+            .side-nav.open { right: 0; }
+            
+            .side-nav-close {
+                position: absolute; top: 22px; right: 2.2rem;
+                background: transparent !important; border: none !important; box-shadow: none !important; outline: none !important;
+                color: #ffffff !important; font-size: 1.4rem; cursor: pointer; opacity: 0.5; padding: 0 !important; transition: opacity 0.2s ease;
+            }
+            .side-nav-close:hover { opacity: 1; }
+            
+            .side-menu-list { list-style: none; padding: 0; margin: 0; }
+            .side-menu-section { margin-bottom: 3rem; }
+            
+            .side-menu-category {
+                display: block; font-size: 0.72rem; color: #94a3b8 !important; font-weight: 700;
+                text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.2rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem;
+                text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            }
+            
+            .side-menu-item { margin-bottom: 1.2rem; }
+            
+            .side-menu-link {
+                color: #ffffff !important; text-decoration: none !important; font-size: 0.95rem; font-weight: 600;
+                border-bottom: none !important; transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                display: inline-flex; align-items: center; justify-content: space-between; width: 100%;
+                opacity: 0.85;
+            }
+            .side-menu-link:hover:not(.status-coming) {
+                opacity: 1 !important; transform: translateX(6px); color: #ffffff !important;
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            }
+            .side-menu-link.status-coming { color: rgba(255, 255, 255, 0.2) !important; cursor: not-allowed !important; pointer-events: none !important; }
+            
+            .nav-badge { font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
+            .nav-badge.active { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.15); }
+            .nav-badge.coming { background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.05); }
+
+            #intro { height: 100vh !important; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem !important; text-align: center; background: transparent !important; position: relative; z-index: 2; }
+            
+            .brand-logo-svg {
+                width: 520px;
+                height: 160px;
+                filter: drop-shadow(0 4px 15px rgba(0,0,0,0.6));
+                overflow: visible !important;
+                display: block;
+                margin: 0 auto;
+            }
+            @media screen and (max-width: 736px) { .brand-logo-svg { width: 320px; height: 100px; } }
+
+            .brand-logo-svg text {
+                font-family: 'Monsieur La Doulaise', cursive !important; font-size: 105px; fill: rgba(255, 255, 255, 0); stroke: #ffffff; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1000; stroke-dashoffset: 1000;
+                text-anchor: middle;
+                animation: writeSign 3.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            }
+            @keyframes writeSign {
+                0% { stroke-dashoffset: 1000; fill: rgba(255, 255, 255, 0); }
+                80% { stroke-dashoffset: 0; fill: rgba(255, 255, 255, 0); }
+                100% { stroke-dashoffset: 0; fill: rgba(255, 255, 255, 1); }
+            }
+
+            .intro-polygon-node {
+                stroke: #ffffff !important;
+                stroke-linejoin: round;
+                stroke-dasharray: 100; stroke-dashoffset: 100;
+                opacity: 0;
+                visibility: hidden;
+                animation: drawPolygon 0.5s ease 3.3s forwards;
+            }
+            @keyframes drawPolygon {
+                0% { opacity: 0; visibility: visible; stroke-dashoffset: 100; }
+                1% { opacity: 1 !important; stroke-dashoffset: 100; }
+                100% { opacity: 1 !important; stroke-dashoffset: 0; visibility: visible; }
+            }
+
+            .intro-path-node {
+                stroke: url(#intro-line-fade) !important; stroke-linecap: round;
+                stroke-dasharray: 600; stroke-dashoffset: 600;
+                opacity: 0;
+                visibility: hidden;
+                animation: drawLineSwipe 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 3.8s forwards;
+            }
+            @keyframes drawLineSwipe {
+                0% { opacity: 0; visibility: visible; stroke-dashoffset: 600; }
+                1% { opacity: 1 !important; stroke-dashoffset: 600; }
+                100% { opacity: 1 !important; stroke-dashoffset: 0; visibility: visible; }
+            }
+
+            #intro p { color: #eeeeee !important; font-size: 1.1rem; text-shadow: 0 2px 12px rgba(0,0,0,0.9); opacity: 0; animation: fadeInSub 1s ease 4.9s forwards; }
+            #intro .actions { margin-top: 3rem; opacity: 0; animation: fadeInSub 1s ease 5.2s forwards; }
+            @keyframes fadeInSub { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
+
+            #main { border: none !important; background-color: transparent !important; max-width: 1140px; margin: 0 auto !important; padding: 6rem 2rem 12rem 2rem !important; position: relative; z-index: 3; }
+            .posts { background-color: transparent !important; display: flex !important; flex-wrap: wrap; justify-content: space-between; gap: 3.5rem !important; }
+            
+            .posts article {
+                width: calc(50% - 1.75rem) !important; background: rgba(255, 255, 255, 0.98) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-radius: 14px !important; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); padding: 3rem 2.5rem 2.5rem 2.5rem !important;
+                display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center; opacity: 0; transform: translateY(15px); will-change: opacity, transform; box-sizing: border-box !important;
+            }
+            @media screen and (max-width: 840px) { .posts { flex-direction: column; gap: 3rem !important; } .posts article { width: 100% !important; } }
+
+            .posts article.show-card { opacity: 1 !important; transform: translateY(0); transition: opacity 450ms ease, transform 450ms ease !important; }
+            .posts article:nth-child(1).show-card { transition-delay: 0ms !important; }
+            .posts article:nth-child(2).show-card { transition-delay: 180ms !important; }
+            
+            .posts article.show-card:hover { transform: translateY(-4px) !important; box-shadow: 0 35px 70px rgba(0, 0, 0, 0.3); transition: transform 200ms ease, box-shadow 200ms ease !important; }
+
+            .posts article header { width: 100%; }
+            .posts article h2 { font-size: 1.35rem !important; font-weight: 700 !important; letter-spacing: 0.05em; margin: 0; }
+            .posts article h2 a { color: #11161b !important; border-bottom: none !important; }
+            .posts article .subtitle { display: block; font-size: 0.75rem; font-weight: 600; color: #4b5663; margin-top: 0.4rem; }
+            .posts article .date { color: #94a3b8 !important; font-size: 0.75rem; font-weight: 500; }
+
+            .posts article .image { margin: 2rem -2.5rem 1.5rem -2.5rem !important; width: calc(100% + 5rem) !important; border-radius: 0 !important; overflow: hidden !important; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05); background-color: #11161b; }
+            .posts article .image img { width: 100%; height: auto; display: block; }
+            .posts article p { font-size: 0.9rem; color: #3b434e !important; line-height: 1.6; margin-bottom: 2rem !important; padding: 0 1.5rem; flex-grow: 1; }
+
+            .posts article .actions.special { margin: 0 !important; width: 100%; display: flex; justify-content: center; }
+            
+            .button.more-btn {
+                background-color: transparent !important; color: #11161b !important; border: 1px solid #11161b !important; border-radius: 5px !important; font-weight: 600 !important; font-size: 0.75rem !important; letter-spacing: 0.05em;
+                width: 160px !important; height: 2.7rem !important; line-height: 2.6rem !important; padding: 0 !important; text-align: center !important; display: inline-block !important; transition: all 0.2s ease !important; box-sizing: border-box !important;
+            }
+            .button.more-btn:not(.coming-btn):hover { background-color: #11161b !important; color: #ffffff !important; box-shadow: 0 4px 12px rgba(17,22,27,0.1); }
+            
+            #card-minecraft, #card-minecraft * { cursor: default !important; }
+            .button.coming-btn { color: #94a3b8 !important; border-color: #cbd5e1 !important; background-color: rgba(0, 0, 0, 0.02) !important; cursor: not-allowed !important; pointer-events: none !important; }
+
+            #custom-footer { padding-bottom: 6rem; text-align: center; position: relative; z-index: 3; }
+            .footer-github-link { display: inline-block; color: #ffffff !important; font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: none !important; transition: opacity 0.2s; }
+            .footer-github-link:hover { opacity: 0.7; }
+            .disclaimer-box { max-width: 640px; margin: 0 auto 1.5rem auto; padding: 0 1.5rem; }
+            .disclaimer-box p { color: #e2e8f0 !important; font-size: 0.75rem; line-height: 1.7; text-shadow: 0 1px 4px rgba(0,0,0,0.6); margin: 0; }
+            .footer-copyright { color: #e2e8f0 !important; font-size: 0.78rem !important; font-weight: 600 !important; letter-spacing: 0.03em !important; margin-top: 0.6rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        </style>
+    </head>
+    <body class="is-preload">
+        <div id="custom-parallax-bg"></div>
+
+        <div id="wrapper" class="fade-in">
+            <header class="global-header" id="global-header">
+                <a href="index.html" class="header-logo-svg-wrapper">
+                    <svg class="header-signature-svg" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="5,12 12,6 19,12 12,18" fill="none" stroke="#ffffff" stroke-width="1.1" stroke-linejoin="round" />
+                        <path d="M 5,12 C -2,26 28,38 70,38 L 155,38" fill="none" stroke="url(#line-fade)" stroke-width="1" stroke-linecap="round" />
+                        <defs>
+                            <linearGradient id="line-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
+                                <stop offset="70%" stop-color="rgba(255,255,255,0.25)" />
+                                <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                            </linearGradient>
+                        </defs>
+                        <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
+                    </svg>
+                </a>
+                <div class="header-right"><button class="menu-trigger-btn" id="menu-open"><span></span><span></span></button></div>
+            </header>
+
+            <nav class="side-nav" id="side-nav">
+                <button class="side-nav-close" id="menu-close">✕</button>
+                <ul class="side-menu-list">
+                    <li class="side-menu-section">
+                        <span class="side-menu-category">Navigation</span>
+                        <div class="side-menu-item"><a href="index.html" class="side-menu-link">HOME</a></div>
+                        <!-- 🛠️ 確定修正：リンク先をお問い合わせページ（contact.html）へ完全連動 -->
+                        <div class="side-menu-item"><a href="contact.html" class="side-menu-link" id="menu-link-contact">CONTACT</a></div>
+                    </li>
+                    <li class="side-menu-section">
+                        <span class="side-menu-category">Applications</span>
+                        <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">v1.0.0</span></a></div>
+                        <div class="side-menu-item"><a href="javascript:void(0);" class="side-menu-link status-coming">Minecraft Server Manager <span class="nav-badge coming">LOCK</span></a></div>
+                    </li>
+                </ul>
+            </nav>
+
+            <div id="intro">
+                <svg class="brand-logo-svg" viewBox="-130 0 650 160">
+                    <polygon points="-92,43 -72,23 -52,43 -72,63" class="intro-polygon-node" style="fill: none !important; stroke: #ffffff !important; stroke-width: 2.0px !important; opacity: 1 !important; stroke-opacity: 1 !important;" />
+                    <path d="M -92,43 C -114,125 -22,135 102,135 L 514,135" class="intro-path-node" style="fill: none !important; stroke: url(#intro-line-fade) !important; stroke-width: 1.8px !important; opacity: 1 !important;" />
+                    <defs>
+                        <linearGradient id="intro-line-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="rgba(255,255,255,1)" />
+                            <stop offset="45%" stop-color="rgba(255,255,255,0.45)" />
+                            <stop offset="85%" stop-color="rgba(255,255,255,0)" />
+                        </linearGradient>
+                    </defs>
+                    <text x="210" y="112">Yuga's Lab</text>
+                </svg>
+                <p>A playground for code and ideas.</p>
+                <ul class="actions"><li><a href="#main" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li></ul>
+            </div>
+
+            <div id="main">
+                <section class="posts">
+                    
+                    <article>
+                        <header>
+                            <span class="date">2026 / 05 / 07</span>
+                            <h2><a href="audioswitcher.html">AudioSwitcher</a></h2>
+                            <span class="subtitle">Switch Windows Audio Devices Instantly</span>
+                        </header>
+                        <a href="audioswitcher.html" class="image fit"><img src="images/pic01.jpg" alt="AudioSwitcher UI" /></a>
+                        <p>ショートカットキーひとつでWindowsの音声出力を瞬時に切り替える軽量ツール。</p>
+                        <ul class="actions special">
+                            <li><a href="audioswitcher.html" class="button more-btn">MORE</a></li>
+                        </ul>
+                    </article>
+
+                    <article id="card-minecraft">
+                        <header>
+                            <span class="date">2026 / 06 / 28</span>
+                            <h2>Minecraft Server Manager</h2>
+                            <span class="subtitle">Automated Local Server Management</span>
+                        </header>
+                        <div class="image fit"><img src="images/pic02.jpg" alt="Minecraft Server" /></div>
+                        <p>ポート開放やローカルIP管理を全自動化し、安全なマルチ環境を構築するスクリプト。</p>
+                        <ul class="actions special">
+                            <li><button class="button more-btn coming-btn" disabled>COMING SOON</button></li>
+                        </ul>
+                    </article>
+
+                </section>
+            </div>
+
+            <footer id="custom-footer">
+                <a href="https://github.com/CAIN218?tab=repositories" class="footer-github-link icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a>
+                <div class="disclaimer-box">
+                    <p>【免責事項】本ウェブサイトで配布しているツールおよびスクリプトはすべて開発個人の責任において作成されたものです。万が一、本ツールの使用によって生じたデータ破損やシステム不具合等のいかなる損害についても、開発者は一切の責任を負いません。導入は自己責任でお願いいたします。</p>
+                </div>
+                <div class="footer-copyright">&copy; Yuga Tanaka. All Rights Reserved.</div>
+            </footer>
+        </div>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.scrolly.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var sideNav = document.getElementById('side-nav');
+                var header = document.getElementById('global-header');
+                var headerTriggered = false;
+
+                document.getElementById('menu-open').addEventListener('click', function() { sideNav.classList.add('open'); });
+                document.getElementById('menu-close').addEventListener('click', function() { sideNav.classList.remove('open'); });
+                document.addEventListener('click', function(e) { if (!sideNav.contains(e.target) && !document.getElementById('menu-open').contains(e.target)) sideNav.classList.remove('open'); });
+
+                function triggerHeader() {
+                    if (!headerTriggered && header) {
+                        headerTriggered = true;
+                        header.classList.add('show-header');
+                    }
+                }
+
+                setTimeout(triggerHeader, 5200);
+
+                var parallaxBg = document.getElementById('custom-parallax-bg');
+                if (parallaxBg) {
+                    var updateBg = function() {
+                        var sTop = window.scrollY, dHeight = document.documentElement.scrollHeight - window.innerHeight;
+                        var ratio = dHeight > 0 ? sTop / dHeight : 0;
+                        parallaxBg.style.setProperty('background-position', 'center ' + (40 + (ratio * 20)) + '%', 'important');
+
+                        if (sTop > 0) {
+                            triggerHeader();
+                        }
+                    };
+                    updateBg();
+                    window.addEventListener('scroll', updateBg);
+                }
+
+                var cards = document.querySelectorAll('.posts article'), obs = new IntersectionObserver(function(ens) {
+                    ens.forEach(function(en) { if (en.isIntersecting) en.target.classList.add('show-card'); });
+                }, { rootMargin: '0px 0px -10% 0px' });
+                cards.forEach(function(ca) { obs.observe(ca); });
+            });
+        </script>
+    </body>
+</html>
