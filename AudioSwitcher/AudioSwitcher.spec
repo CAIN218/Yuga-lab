@@ -1,12 +1,21 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from PyInstaller.utils.hooks import collect_all
+
+datas_comtypes, binaries_comtypes, hiddenimports_comtypes = collect_all('comtypes')
+datas_pycaw, binaries_pycaw, hiddenimports_pycaw = collect_all('pycaw')
 
 a = Analysis(
     ['switch_audio.py'],
     pathex=[],
-    binaries=[],
-    datas=[],
-    hiddenimports=[],
+    binaries=binaries_comtypes + binaries_pycaw,
+    datas=datas_comtypes + datas_pycaw,
+    hiddenimports=[
+        'pycaw',
+        'pycaw.pycaw',
+        'pycaw.constants',
+        'pycaw.utils',
+    ] + hiddenimports_comtypes + hiddenimports_pycaw,
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

@@ -1,24 +1,39 @@
-import subprocess
 import os
+import subprocess
 import keyboard
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 import time
 import sys
+import warnings
+import threading
 import winshell
 from win32com.client import Dispatch
+
+import comtypes
+from pycaw.pycaw import AudioUtilities
+from pycaw.constants import DEVICE_STATE, EDataFlow
 
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
 else:
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXE_PATH = os.path.join(BASE_DIR, "lib", "SoundVolumeView.exe")
-TEMP_FILE = os.path.join(BASE_DIR, "temp.txt")
 CONFIG_FILE = os.path.join(BASE_DIR, "app_config.txt")
 
 last_switch_time = 0
+_com_thread_local = threading.local()
+
+
+def ensure_com_initialized():
+    """pycaw(comtypes)はスレッド毎にCOM初期化が必要。二重初期化は無害に握りつぶす"""
+    if not getattr(_com_thread_local, "initialized", False):
+        try:
+            comtypes.CoInitialize()
+        except OSError:
+            pass  # 既に初期化済みのスレッド
+        _com_thread_local.initialized = True
 
 def kill_previous_instances():
     """裏で既に動いている古いAudioSwitcherのプロセスをすべて安全に終了させる"""
@@ -36,41 +51,37 @@ def kill_previous_instances():
         pass
 
 def get_device_info():
-    """デバイスリストと現在のデフォルトを吸い上げる（名前被り対策の固有ID抽出）"""
+    """pycaw(Windows Core Audio API)経由でデバイスリストと現在のデフォルトを取得（外部exe不要）"""
     try:
-        if not os.path.exists(EXE_PATH):
-            return {}, None
-            
-        subprocess.run([EXE_PATH, "/stab", TEMP_FILE], check=True)
+        ensure_com_initialized()
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", UserWarning)
+            devices = AudioUtilities.GetAllDevices(
+                data_flow=EDataFlow.eRender.value,
+                device_state=DEVICE_STATE.ACTIVE.value,
+            )
+            default_device = AudioUtilities.GetSpeakers()
+
+        default_id = getattr(default_device, "id", None)
+
         device_dict = {}
         current_default_name = None
-        
-        with open(TEMP_FILE, "r", encoding="utf-16", errors="ignore") as f:
-            for line in f:
-                data = line.split("\t")
-                
-                if len(data) >= 19:
-                    base_name = data[0].strip()   
-                    item_type = data[1].strip()   
-                    direction = data[2].strip()  
-                    device_name = data[3].strip() 
-                    is_default = data[4].strip()  
-                    cmd_id = data[18].strip()     
-                    
-                    if item_type == "Device" and direction == "Render" and base_name:
-                        if "System" in base_name or "Operating System" in base_name:
-                            continue
-                        
-                        if device_name and base_name != device_name:
-                            display_name = f"{base_name} ({device_name})"
-                        else:
-                            display_name = base_name
-                            
-                        device_dict[display_name] = cmd_id
-                        
-                        if "Render" in is_default or "All" in is_default:
-                            current_default_name = display_name
-                            
+
+        for dev in devices:
+            display_name = (dev.FriendlyName or dev.id or "").strip()
+            if not display_name:
+                continue
+
+            # 同名デバイスが複数ある場合はIDの末尾を付けて衝突を回避
+            if display_name in device_dict:
+                display_name = f"{display_name} ({dev.id[-8:]})"
+
+            device_dict[display_name] = dev.id
+
+            if default_id and dev.id == default_id:
+                current_default_name = display_name
+
         return device_dict, current_default_name
     except Exception:
         return {}, None
@@ -211,9 +222,14 @@ def switch_audio():
             target_display_name = dev_a
             
     target_id = device_dict.get(target_display_name)
-    if target_id and os.path.exists(EXE_PATH):
-        subprocess.run([EXE_PATH, "/SetDefault", target_id, "all"])
-        show_toast(target_display_name)
+    if target_id:
+        try:
+            ensure_com_initialized()
+            # roles=NoneでeConsole/eMultimedia/eCommunicationsの全ロールに設定（SoundVolumeViewの"all"相当）
+            AudioUtilities.SetDefaultDevice(target_id)
+            show_toast(target_display_name)
+        except Exception:
+            pass
 
 def start_backend():
     """バックグラウンドでのキーボード監視開始"""
@@ -227,14 +243,14 @@ def open_setting_window():
 
     device_dict, current_default = get_device_info()
     devices = list(device_dict.keys())
-    
-    if not os.path.exists(EXE_PATH):
-        root_err = tk.Tk()
-        root_err.withdraw()
-        tk.messagebox.showerror("Error", "SoundVolumeView.exe not found in 'lib' directory.")
-        return
 
     if not devices:
+        root_err = tk.Tk()
+        root_err.withdraw()
+        tk.messagebox.showerror(
+            "Error",
+            "再生デバイスを取得できませんでした。\nオーディオドライバの状態を確認してください。"
+        )
         devices = ["Speakers", "Headphones"]
     
     saved_a, saved_b, saved_key, saved_startup = load_config()
