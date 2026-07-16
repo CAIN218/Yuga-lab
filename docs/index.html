@@ -1,11 +1,16 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="ja">
     <head>
         <title>Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="Yuga's Lab — 個人開発のWindows向けユーティリティソフトを公開しています。" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <noscript><style>
+            .global-header { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+            .posts article { opacity: 1 !important; transform: none !important; }
+        </style></noscript>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Monsieur+La+Doulaise&display=swap');
 
@@ -110,7 +115,7 @@
             .side-menu-link.status-coming { color: rgba(255, 255, 255, 0.2) !important; cursor: not-allowed !important; pointer-events: none !important; }
             
             .nav-badge { font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
-            .nav-badge.active { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.15); }
+            .nav-badge.active { background: rgba(214, 138, 76, 0.15); color: #d68a4c; border: 1px solid rgba(214, 138, 76, 0.35); }
             .nav-badge.coming { background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.05); }
 
             #intro { height: 100vh !important; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem !important; text-align: center; background: transparent !important; position: relative; z-index: 2; }
@@ -230,11 +235,11 @@
                         <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
                     </svg>
                 </a>
-                <div class="header-right"><button class="menu-trigger-btn" id="menu-open"><span></span><span></span></button></div>
+                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button></div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
                 <ul class="side-menu-list">
                     <li class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
@@ -244,7 +249,7 @@
                     </li>
                     <li class="side-menu-section">
                         <span class="side-menu-category">Applications</span>
-                        <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">v1.0.0</span></a></div>
+                        <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="javascript:void(0);" class="side-menu-link status-coming">Minecraft Server Manager <span class="nav-badge coming">LOCK</span></a></div>
                     </li>
                 </ul>

@@ -1,11 +1,16 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="ja">
     <head>
         <title>AudioSwitcher - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="AudioSwitcher — グローバルショートカットキーでWindowsのオーディオ出力デバイスを瞬時に切り替える軽量常駐ツール。" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <noscript><style>
+            .global-header { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
+            .project-card { opacity: 1 !important; transform: none !important; }
+        </style></noscript>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Monsieur+La+Doulaise&display=swap');
 
@@ -93,7 +98,7 @@
             .side-menu-link.status-coming { color: rgba(255, 255, 255, 0.2) !important; cursor: not-allowed !important; pointer-events: none !important; }
 
             .nav-badge { font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
-            .nav-badge.active { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.15); }
+            .nav-badge.active { background: rgba(214, 138, 76, 0.15); color: #d68a4c; border: 1px solid rgba(214, 138, 76, 0.35); }
             .nav-badge.coming { background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.05); }
 
             #main { border: none !important; background-color: transparent !important; max-width: 900px; margin: 0 auto !important; padding: 8rem 2rem 12rem 2rem !important; position: relative; z-index: 3; }
@@ -102,7 +107,7 @@
             
             .card-back-btn { position: absolute; top: 2rem; left: 3.5rem; color: #94a3b8 !important; text-decoration: none !important; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; border-bottom: none !important; transition: color 0.2s; }
             .card-back-btn:hover { color: #11161b !important; }
-            @media screen and (max-width: 736px) { .project-card { padding: 4rem 1.5rem 2.5rem 1.5rem !important; } .global-header { padding: 0 1.5rem; } .card-back-btn { top: 1.5rem; left: 1.5rem; } }
+            @media screen and (max-width: 736px) { .project-card { padding: 4rem 1.5rem 2.5rem 1.5rem !important; } .project-card .main-image { margin: 2rem -1.5rem 3rem -1.5rem !important; } .global-header { padding: 0 1.5rem; } .card-back-btn { top: 1.5rem; left: 1.5rem; } }
 
             .project-card h1 { font-size: 2.4rem !important; font-weight: 700 !important; color: #11161b !important; margin-bottom: 0.5rem; text-align: center; }
             .project-card .subtitle { display: block; font-size: 0.82rem; font-weight: 600; color: #64748b; text-align: center; margin-bottom: 2.5rem; }
@@ -124,14 +129,15 @@
             .download-area { text-align: center; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid #e2e8f0; }
             
             .action-container { display: flex; justify-content: center; margin-bottom: 2.5rem; }
-            .action-btn { background-color: #11161b !important; color: #ffffff !important; box-shadow: 0 10px 25px rgba(17,22,27,0.15) !important; border: 1px solid #11161b !important; border-radius: 5px !important; font-weight: 700 !important; font-size: 0.85rem !important; width: 240px !important; height: 3.2rem !important; line-height: 3.05rem !important; display: inline-block !important; text-decoration: none !important; transition: all 0.2s; }
-            .action-btn:hover { background-color: #334155 !important; border-color: #334155 !important; transform: translateY(-2px); box-shadow: 0 15px 30px rgba(17,22,27,0.25) !important; }
+            .action-btn { background-color: #d68a4c !important; color: #16151a !important; box-shadow: 0 10px 25px rgba(214,138,76,0.25) !important; border: 1px solid #d68a4c !important; border-radius: 5px !important; font-weight: 700 !important; font-size: 0.85rem !important; width: 240px !important; height: 3.2rem !important; line-height: 3.05rem !important; display: inline-block !important; text-decoration: none !important; transition: all 0.2s; }
+            .action-btn:hover { background-color: #e6a05f !important; border-color: #e6a05f !important; transform: translateY(-2px); box-shadow: 0 15px 30px rgba(214,138,76,0.35) !important; }
+            .download-meta { font-size: 0.78rem; color: #64748b; margin: -1.7rem 0 2.5rem 0; }
 
             .warning-box { max-width: 600px; margin: 0 auto; padding: 1.2rem 1.5rem; background: #fffbeb; border-left: 4px solid #f59e0b; border-radius: 0 8px 8px 0; text-align: left; border: 1px solid #fef3c7; border-left-width: 4px; }
             .warning-box h4 { color: #b45309 !important; font-size: 0.85rem !important; font-weight: 700 !important; margin: 0 0 0.4rem 0; }
             .warning-box p { font-size: 0.8rem !important; color: #92400e !important; line-height: 1.6; margin: 0; }
 
-            #custom-footer { padding-bottom: 6rem; text-align: center; position: relative; z-index: 3; }
+            #custom-footer { padding: 3rem 1.5rem 6rem 1.5rem; text-align: center; position: relative; z-index: 3; background: linear-gradient(180deg, rgba(11,14,17,0) 0%, rgba(11,14,17,0.75) 30%, rgba(11,14,17,0.92) 100%); }
             .footer-github-link { display: inline-block; color: #ffffff !important; font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: none !important; transition: opacity 0.2s; }
             .footer-github-link:hover { opacity: 0.7; }
             .disclaimer-box { max-width: 640px; margin: 0 auto 1.5rem auto; padding: 0 1.5rem; }
@@ -158,11 +164,11 @@
                         <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
                     </svg>
                 </a>
-                <div class="header-right"><button class="menu-trigger-btn" id="menu-open"><span></span><span></span></button></div>
+                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button></div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
                 <div class="side-menu-list">
                     <div class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
@@ -172,8 +178,8 @@
                     </div>
                     <div class="side-menu-section">
                         <span class="side-menu-category">Applications</span>
-                        <!-- 🛠 v1.0.0バッジ表示ズレを修正 -->
-                        <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">v1.0.0</span></a></div>
+                        <!-- 🛠 バージョンバッジをLATEST表記に統一 -->
+                        <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="javascript:void(0);" class="side-menu-link status-coming">Minecraft Server Manager <span class="nav-badge coming">LOCK</span></a></div>
                     </div>
                 </div>
@@ -199,11 +205,11 @@
                         <div class="feature-grid">
                             <div class="feature-item">
                                 <strong>■ タスクバー完全同期型のフェード通知UI</strong>
-                                <p>デバイス切り替えがトリガーされると、デスクトップ最右下のタスクバー時計エリアに完全にオーバーレイする形でスムーズなフェードUI通知を表示。作業や画面描画を邪魔しない極限 of ミニマリズムを設計思想としています。</p>
+                                <p>デバイス切り替えがトリガーされると、デスクトップ最右下のタスクバー時計エリアに完全にオーバーレイする形でスムーズなフェードUI通知を表示。作業や画面描画を邪魔しない極限のミニマリズムを設計思想としています。</p>
                             </div>
                             <div class="feature-item">
                                 <strong>■ 同名デバイスの競合を完全に回避</strong>
-                                <p>Windows環境において多発する「同一製品名を持つオーディオデバイス」の誤認識問題を解決するため、SoundVolumeViewエンジンのデータ構造から固有 of コマンドID（永続的な一意 of 識別子）を自動抽出して内部処理を行うため、100%正確なルーティングが維持されます。</p>
+                                <p>Windows環境において多発する「同一製品名を持つオーディオデバイス」の誤認識問題を解決するため、Windows Core Audio API（pycaw）から各デバイス固有の永続的な識別子を直接取得して内部処理を行うため、外部ツールに頼らず100%正確なルーティングが維持されます。</p>
                             </div>
                             <div class="feature-item">
                                 <strong>■ 常駐化のインテリジェント自動登録</strong>
@@ -216,16 +222,16 @@
                         <h3>📦 Package Structure</h3>
                         <div class="file-list">
                             <ul>
-                                <li><code>AudioSwitcher.exe</code> — アプリケーション実行本体（コア制御ロジックを統合）</li>
-                                <li><code>lib/SoundVolumeView.exe</code> — オーディオデバイスバックエンド制御モジュール</li>
+                                <li><code>AudioSwitcher.exe</code> — アプリケーション実行本体（デバイス制御まで単体で完結、外部ツール不要）</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="download-area">
                         <div class="action-container">
-                            <a href="https://github.com/CAIN218/audio-switcher/releases/tag/v1.0.0" class="action-btn" target="_blank" rel="noopener noreferrer">DOWNLOAD</a>
+                            <a href="https://github.com/CAIN218/audio-switcher/releases/latest" class="action-btn" target="_blank" rel="noopener noreferrer">DOWNLOAD</a>
                         </div>
+                        <p class="download-meta">対応環境: Windows 10 / 11（64bit）</p>
                         <div class="warning-box">
                             <h4>⚠️ Windows SmartScreenに関するご注意</h4>
                             <p>本ツールは個人開発によるデジタル署名未付与のバイナリファイル（.exe）であるため、初回起動時にWindowsの保護警告が表示される場合があります。保存、起動は自己責任において行ってください。安全性確認のため、全ソースコードはGitHubで完全公開されています。</p>
