@@ -1,5 +1,0 @@
-keyboard
-pywin32
-winshell
-pycaw
-comtypes
