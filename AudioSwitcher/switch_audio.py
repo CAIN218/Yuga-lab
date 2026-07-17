@@ -14,7 +14,9 @@ import comtypes
 from pycaw.pycaw import AudioUtilities
 from pycaw.constants import DEVICE_STATE, EDataFlow
 
-import customtkinter as ctk
+# customtkinter（設定画面専用のUIライブラリ）はここでは読み込まない。
+# バックグラウンド常駐時はホットキー監視しかしないため、
+# 使わない重いUIアセットをメモリに乗せないよう open_setting_window() 内で遅延importする。
 
 if getattr(sys, 'frozen', False):
     BASE_DIR = os.path.dirname(sys.executable)
@@ -128,7 +130,8 @@ def get_device_info():
                 current_default_name = display_name
 
         return device_dict, current_default_name
-    except Exception:
+    except Exception as e:
+        log_error("get_device_info", e)
         return {}, None
 
 def load_config():
@@ -245,6 +248,16 @@ def show_toast(device_name):
     toast.after(10, fade_in)
     toast.mainloop()
 
+def log_error(context, exc):
+    """サイレントに握りつぶさず、原因調査用にエラーをログファイルへ記録する"""
+    try:
+        log_path = os.path.join(BASE_DIR, "error.log")
+        with open(log_path, "a", encoding="utf-8") as f:
+            f.write(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {context}: {repr(exc)}\n")
+    except Exception:
+        pass
+
+
 def switch_audio():
     """固有IDを用いた実態ベースのオーディオ切り替え"""
     global last_switch_time
@@ -271,9 +284,19 @@ def switch_audio():
             ensure_com_initialized()
             # roles=NoneでeConsole/eMultimedia/eCommunicationsの全ロールに設定（SoundVolumeViewの"all"相当）
             AudioUtilities.SetDefaultDevice(target_id)
-            show_toast(target_display_name)
-        except Exception:
-            pass
+        except Exception as e:
+            log_error("SetDefaultDevice", e)
+            return
+        # トースト表示（tkinterのmainloopを含む）は数秒かかるため、
+        # 低レベルキーボードフックをブロックしないよう別スレッドで実行する
+        threading.Thread(target=_show_toast_safe, args=(target_display_name,), daemon=True).start()
+
+
+def _show_toast_safe(device_name):
+    try:
+        show_toast(device_name)
+    except Exception as e:
+        log_error("show_toast", e)
 
 def start_backend():
     """バックグラウンドでのキーボード監視開始"""
@@ -283,6 +306,8 @@ def start_backend():
 
 def open_setting_window():
     """2重起動防止・ハイブリッドスタートアップ自動生成付き設定UI"""
+    import customtkinter as ctk  # 設定画面を開く時だけ読み込む（バックグラウンド常駐時は不要なため）
+
     kill_previous_instances()
 
     device_dict, current_default = get_device_info()
