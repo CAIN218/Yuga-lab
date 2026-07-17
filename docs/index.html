@@ -185,7 +185,7 @@
                 width: calc(50% - 1.75rem) !important; background: rgba(255, 255, 255, 0.98) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-radius: 14px !important; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); padding: 3rem 2.5rem 2.5rem 2.5rem !important;
                 display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center; opacity: 0; transform: translateY(15px); will-change: opacity, transform; box-sizing: border-box !important;
             }
-            @media screen and (max-width: 840px) { .posts { flex-direction: column; gap: 3rem !important; } .posts article { width: 100% !important; } }
+            @media screen and (max-width: 840px) { .posts { flex-direction: column; gap: 3rem !important; } .posts article { width: 100% !important; } .posts article .image img { aspect-ratio: 21 / 9; object-fit: cover; height: auto; } }
 
             .posts article.show-card { opacity: 1 !important; transform: translateY(0); transition: opacity 450ms ease, transform 450ms ease !important; }
             .posts article:nth-child(1).show-card { transition-delay: 0ms !important; }
@@ -342,7 +342,7 @@
                     }
                 }
 
-                setTimeout(triggerHeader, 1200);
+                setTimeout(triggerHeader, 5200);
 
                 var parallaxBg = document.getElementById('custom-parallax-bg');
                 if (parallaxBg) {
