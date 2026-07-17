@@ -24,6 +24,12 @@
                 display: none !important;
             }
 
+            /* main.js(テンプレート由来)が自動生成する旧ナビ要素。カスタムのside-navと
+               重なって上に乗り、実際のメニューボタンのクリックを奪ってしまうため無効化する */
+            #navPanelToggle, #navPanel {
+                display: none !important;
+            }
+
             #custom-parallax-bg {
                 position: fixed !important;
                 top: 0 !important;

@@ -24,6 +24,12 @@
                 display: none !important;
             }
 
+            /* main.js(テンプレート由来)が自動生成する旧ナビ要素。カスタムのside-navと
+               重なって上に乗り、実際のメニューボタンのクリックを奪ってしまうため無効化する */
+            #navPanelToggle, #navPanel {
+                display: none !important;
+            }
+
             #custom-parallax-bg {
                 position: fixed !important;
                 top: 0 !important;
@@ -208,7 +214,7 @@
             #card-minecraft, #card-minecraft * { cursor: default !important; }
             .button.coming-btn { color: #94a3b8 !important; border-color: #cbd5e1 !important; background-color: rgba(0, 0, 0, 0.02) !important; cursor: not-allowed !important; pointer-events: none !important; }
 
-            #custom-footer { padding-bottom: 6rem; text-align: center; position: relative; z-index: 3; }
+            #custom-footer { padding: 3rem 1.5rem 6rem 1.5rem; text-align: center; position: relative; z-index: 3; background: linear-gradient(180deg, rgba(11,14,17,0) 0%, rgba(11,14,17,0.75) 30%, rgba(11,14,17,0.92) 100%); }
             .footer-github-link { display: inline-block; color: #ffffff !important; font-size: 1.8rem; margin-bottom: 1.5rem; border-bottom: none !important; transition: opacity 0.2s; }
             .footer-github-link:hover { opacity: 0.7; }
             .disclaimer-box { max-width: 640px; margin: 0 auto 1.5rem auto; padding: 0 1.5rem; }
@@ -336,7 +342,7 @@
                     }
                 }
 
-                setTimeout(triggerHeader, 5200);
+                setTimeout(triggerHeader, 1200);
 
                 var parallaxBg = document.getElementById('custom-parallax-bg');
                 if (parallaxBg) {
