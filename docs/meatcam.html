@@ -49,6 +49,10 @@
                 position: relative !important;
                 z-index: 2 !important;
                 background: transparent !important;
+                /* main.cssの既定#wrapperにoverflow:hiddenがあり、position:fixedの
+                   ヘッダーを実機iOS Safariでクリップしてしまう(デスクトップの
+                   Chromium/WebKitでは再現しない既知の挙動差)。ここで打ち消す */
+                overflow: visible !important;
             }
 
             .global-header {
@@ -108,7 +112,7 @@
             .nav-badge.coming { background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.05); }
 
             #main { border: none !important; background-color: transparent !important; max-width: 900px; margin: 0 auto !important; padding: 8rem 2rem 12rem 2rem !important; position: relative; z-index: 3; }
-            .project-card { position: relative; background: rgba(255, 255, 255, 0.98) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-radius: 14px !important; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); padding: 5rem 3.5rem 4rem 3.5rem !important; opacity: 0; transform: translateY(15px); will-change: opacity, transform; transition: opacity 400ms ease, transform 400ms ease !important; box-sizing: border-box !important; }
+            .project-card { position: relative; background: rgba(255, 255, 255, 0.98) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-radius: 14px !important; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); padding: 5rem 3.5rem 4rem 3.5rem !important; opacity: 0; transform: translateY(15px); will-change: opacity, transform; transition: opacity 400ms ease, transform 400ms ease !important; box-sizing: border-box !important; overflow: hidden !important; }
             .project-card.show-card { opacity: 1 !important; transform: translateY(0); }
 
             .card-back-btn { position: absolute; top: 2rem; left: 3.5rem; color: #94a3b8 !important; text-decoration: none !important; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; border-bottom: none !important; transition: color 0.2s; }
