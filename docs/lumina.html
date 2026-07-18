@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
 <html lang="ja">
     <head>
-        <title>MeatCam - Yuga's Lab</title>
+        <title>Lumina - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="MeatCam — 色弱の方向けに、肉の焼け具合を斜線ハッチングで可視化するiOSアプリ。" />
+        <meta name="description" content="Lumina — DDC/CI対応モニターの明るさをタスクバーからワンクリックで調整するWindows常駐ツール。" />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
         <noscript><style>
@@ -194,31 +194,31 @@
                 <div class="project-card">
                     <a href="index.html" class="card-back-btn">← BACK</a>
                     <header>
-                        <h1>MeatCam</h1>
-                        <span class="subtitle">A colorblind-friendly raw meat doneness visualizer for iOS</span>
+                        <h1>Lumina</h1>
+                        <span class="subtitle">A modern tray-resident brightness controller for multi-monitor Windows setups</span>
                     </header>
 
-                    <div class="main-image"><img src="images/meatcam-icon.svg" alt="MeatCam icon" /></div>
+                    <div class="main-image"><img src="images/lumina-icon.svg" alt="Lumina icon" /></div>
 
                     <div class="content-section">
                         <h3>Overview</h3>
-                        <p>MeatCamは、色弱の方でも肉の焼け具合を判別しやすくするためのiOSアプリです。カメラをかざすと、まだ生っぽい部分に斜線ハッチングを重ねて表示します。色そのものではなく「模様(斜線)」を主な合図にしているため、赤/緑の色弱の方でも判別しやすいのが特徴です。</p>
+                        <p>Luminaは、DDC/CI対応モニターの明るさをタスクバーからワンクリックで調整できるWindows常駐ツールです。通知領域のアイコンをクリックすると、接続中の各モニターの明るさをモダンなスライダーパネルで直接調整できます。複数モニター環境でコントロールパネルやモニターのOSDボタンを行き来する煩わしさを解消します。</p>
                     </div>
 
                     <div class="content-section">
                         <h3>✨ Key Features</h3>
                         <div class="feature-grid">
                             <div class="feature-item">
-                                <strong>■ 色ではなく模様で伝える斜線ハッチング</strong>
-                                <p>生っぽい領域を薄いアンバー色の塗りだけでなく、斜線パターンで囲んで表示。色の判別が難しい場合でも、模様の有無で焼け具合を判断できるように設計しています。</p>
+                                <strong>■ タスクバー常駐のモダンなスライダーパネル</strong>
+                                <p>通知領域のアイコンをクリックすると、フェード+スライドしながら各モニターのスライダーパネルが開く。角丸パネルとドラッグ中に光るつまみのグロー演出で、常駐ツールらしからぬ今風の見た目に。</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ 差し替え可能な判定ロジック設計</strong>
-                                <p>判定処理は<code>DonenessAnalyzing</code>というprotocol越しに呼ばれる設計。現在は色相ベースのヒューリスティック判定(<code>HeuristicDonenessAnalyzer</code>)のみだが、将来Create MLで学習したセグメンテーションモデルに差し替えられるようになっている。</p>
+                                <strong>■ 個別調整とマスターフェーダーの両立</strong>
+                                <p>各モニターのスライダーは常に独立して動かせる。右クリックメニューで「一斉に動かせるようにする」を有効にすると、パネルに専用のマスターフェーダーが追加され、そこから全モニターをまとめて動かせる。</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ 実機カメラでのリアルタイム解析</strong>
-                                <p>AVFoundationでカメラ映像を取得し、フレームを間引きながら粗いグリッドに縮小して解析。発熱・電池消費を抑えつつ、実機上でリアルタイムに焼け具合を可視化する。</p>
+                                <strong>■ ドラッグを重くしないDDC/CI非同期書き込み</strong>
+                                <p>モニターとの通信(DDC/CI)は1回あたり数十〜百ms程度かかることがあるが、各モニターの直近の目標値だけを保持して別スレッドがまとめて書き込む方式にすることで、スライダー操作そのものは常に軽快に動く。</p>
                             </div>
                         </div>
                     </div>
@@ -227,24 +227,19 @@
                         <h3>📦 Package Structure</h3>
                         <div class="file-list">
                             <ul>
-                                <li><code>MeatCamApp.swift</code> — アプリのエントリポイント</li>
-                                <li><code>ContentView.swift</code> — メイン画面(カメラ映像 + ハッチング重ね合わせ + 凡例)</li>
-                                <li><code>CameraManager.swift</code> — カメラのキャプチャセッション管理</li>
-                                <li><code>DonenessAnalyzer.swift</code> — 「生っぽいか」の判定ロジック本体</li>
-                                <li><code>CameraPreviewView.swift</code> — カメラ映像プレビューのSwiftUI橋渡し</li>
-                                <li><code>RawRegionOverlayView.swift</code> — 斜線ハッチングの描画</li>
+                                <li><code>Lumina.exe</code> — アプリケーション実行本体（タスクバー常駐、外部ツール不要）</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="download-area">
                         <div class="action-container">
-                            <a href="https://github.com/CAIN218/meat-cam" class="action-btn" target="_blank" rel="noopener noreferrer">VIEW ON GITHUB</a>
+                            <a href="https://github.com/CAIN218/Lumina/releases/latest" class="action-btn" target="_blank" rel="noopener noreferrer">DOWNLOAD</a>
                         </div>
-                        <p class="download-meta">対応環境: iOS 17以降(実機カメラが必要 / Xcodeでのビルドが必要)</p>
+                        <p class="download-meta">対応環境: Windows 10 / 11（64bit）／ DDC/CI対応モニター</p>
                         <div class="warning-box">
-                            <h4>⚠️ 開発中のプロジェクトです</h4>
-                            <p>現在アプリストア配布は行っておらず、ソースコードをXcodeでビルドして実機にインストールする形になります。判定ロジックは未検証のヒューリスティックのため、実際の焼け具合と完全には一致しない場合があります。</p>
+                            <h4>⚠️ Windows SmartScreenに関するご注意</h4>
+                            <p>本ツールは個人開発によるデジタル署名未付与のバイナリファイル（.exe）であるため、初回起動時にWindowsの保護警告が表示される場合があります。保存、起動は自己責任において行ってください。安全性確認のため、全ソースコードはGitHubで完全公開されています。</p>
                         </div>
                     </div>
                 </div>
