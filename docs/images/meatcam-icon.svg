@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480">
+  <defs>
+    <linearGradient id="mc-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a0f0a" />
+      <stop offset="55%" stop-color="#5c1f13" />
+      <stop offset="100%" stop-color="#b5502a" />
+    </linearGradient>
+    <pattern id="mc-hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="14" height="14" fill="none" />
+      <line x1="0" y1="0" x2="0" y2="14" stroke="#ffffff" stroke-width="3" stroke-opacity="0.92" />
+    </pattern>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="480" fill="url(#mc-bg)" />
+
+  <!-- camera glyph -->
+  <g>
+    <rect x="268" y="168" width="264" height="172" rx="26" fill="none" stroke="#f5ede3" stroke-width="14" />
+    <rect x="350" y="136" width="92" height="42" rx="10" fill="none" stroke="#f5ede3" stroke-width="14" />
+    <circle cx="400" cy="256" r="64" fill="none" stroke="#f5ede3" stroke-width="14" />
+    <circle cx="400" cy="256" r="30" fill="#f5ede3" opacity="0.9" />
+    <circle cx="472" cy="196" r="10" fill="#f5ede3" />
+  </g>
+
+  <!-- doneness highlight motif: amber fill + diagonal hatching, matching the app's on-screen overlay -->
+  <rect x="646" y="132" width="232" height="216" rx="22" fill="#d68a4c" opacity="0.4" />
+  <rect x="646" y="132" width="232" height="216" rx="22" fill="url(#mc-hatch)" />
+  <rect x="646" y="132" width="232" height="216" rx="22" fill="none" stroke="#f5ede3" stroke-width="4" stroke-opacity="0.35" />
+</svg>
