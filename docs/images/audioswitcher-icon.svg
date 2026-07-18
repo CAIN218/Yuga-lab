@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480">
+  <defs>
+    <linearGradient id="as-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0e12" />
+      <stop offset="55%" stop-color="#1d1b21" />
+      <stop offset="100%" stop-color="#33291c" />
+    </linearGradient>
+    <radialGradient id="as-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e6a05f" stop-opacity="0.5" />
+      <stop offset="45%" stop-color="#d68a4c" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#d68a4c" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="480" fill="url(#as-bg)" />
+
+  <!-- ambient glow behind the headphone glyph -->
+  <circle cx="330" cy="230" r="190" fill="url(#as-glow)" />
+
+  <!-- headphone glyph, matching the app's own icon motif -->
+  <g fill="none" stroke="#f2ece1" stroke-width="16" stroke-linecap="round">
+    <path d="M 210,260 A 120,120 0 0 1 450,260" />
+    <rect x="196" y="248" width="44" height="86" rx="14" fill="#1d1b21" stroke="#f2ece1" />
+    <rect x="420" y="248" width="44" height="86" rx="14" fill="#1d1b21" stroke="#f2ece1" />
+  </g>
+
+  <!-- A/B routing indicator, echoing the app's own settings-screen UI -->
+  <g>
+    <line x1="620" y1="240" x2="860" y2="240" stroke="#4a4350" stroke-width="3" />
+    <circle cx="620" cy="240" r="34" fill="#d68a4c" stroke="#e6a05f" stroke-width="4" />
+    <text x="620" y="252" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="30" font-weight="700" fill="#16151a">A</text>
+    <circle cx="860" cy="240" r="30" fill="#1d1b21" stroke="#6b6470" stroke-width="4" />
+    <text x="860" y="251" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="28" font-weight="700" fill="#8f8878">B</text>
+  </g>
+</svg>
