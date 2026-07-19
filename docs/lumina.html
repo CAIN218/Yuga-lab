@@ -70,9 +70,17 @@
                 pointer-events: auto !important;
             }
 
+            .header-left { display: flex; align-items: center; gap: 1rem; }
             .header-logo-svg-wrapper { text-decoration: none !important; border-bottom: none !important; display: inline-block; height: 45px; box-sizing: border-box; }
             .header-signature-svg { width: 145px; height: auto; overflow: visible; }
             .signature-text-node { font-family: 'Monsieur La Doulaise', cursive !important; font-size: 32px; fill: #ffffff; opacity: 0.95; }
+
+            .lang-switch { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; }
+            .lang-switch a { color: rgba(255,255,255,0.45) !important; text-decoration: none !important; border-bottom: none !important; transition: color 0.2s ease; }
+            .lang-switch a:hover { color: #ffffff !important; }
+            .lang-switch a.active { color: #d68a4c !important; pointer-events: none; }
+            .lang-switch .lang-sep { color: rgba(255,255,255,0.2); }
+            @media screen and (max-width: 480px) { .lang-switch { display: none; } }
 
             .menu-trigger-btn {
                 background: transparent !important; border: none !important; cursor: pointer;
@@ -160,20 +168,25 @@
 
         <div id="wrapper">
             <header class="global-header" id="global-header">
-                <a href="index.html" class="header-logo-svg-wrapper">
-                    <svg class="header-signature-svg" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="5,12 12,6 19,12 12,18" fill="none" stroke="#ffffff" stroke-width="1.1" stroke-linejoin="round" />
-                        <path d="M 5,12 C -2,26 28,38 70,38 L 155,38" fill="none" stroke="url(#line-fade)" stroke-width="1" stroke-linecap="round" />
-                        <defs>
-                            <linearGradient id="line-fade" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
-                                <stop offset="70%" stop-color="rgba(255,255,255,0.25)" />
-                                <stop offset="100%" stop-color="rgba(255,255,255,0)" />
-                            </linearGradient>
-                        </defs>
-                        <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
-                    </svg>
-                </a>
+                <div class="header-left">
+                    <a href="index.html" class="header-logo-svg-wrapper">
+                        <svg class="header-signature-svg" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="5,12 12,6 19,12 12,18" fill="none" stroke="#ffffff" stroke-width="1.1" stroke-linejoin="round" />
+                            <path d="M 5,12 C -2,26 28,38 70,38 L 155,38" fill="none" stroke="url(#line-fade)" stroke-width="1" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="line-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
+                                    <stop offset="70%" stop-color="rgba(255,255,255,0.25)" />
+                                    <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                                </linearGradient>
+                            </defs>
+                            <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
+                        </svg>
+                    </a>
+                    <div class="lang-switch">
+                        <a href="lumina.html" class="active">JA</a><span class="lang-sep">/</span><a href="en/lumina.html">EN</a>
+                    </div>
+                </div>
                 <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button></div>
             </header>
 
@@ -191,6 +204,11 @@
                         <div class="side-menu-item"><a href="lumina.html" class="side-menu-link">Lumina <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="meatcam.html" class="side-menu-link">MeatCam <span class="nav-badge active">IN DEV</span></a></div>
                     </div>
+                    <div class="side-menu-section">
+                        <span class="side-menu-category">Language</span>
+                        <div class="side-menu-item"><a href="lumina.html" class="side-menu-link">日本語 <span class="nav-badge active">JA</span></a></div>
+                        <div class="side-menu-item"><a href="en/lumina.html" class="side-menu-link">English <span class="nav-badge coming">EN</span></a></div>
+                    </div>
                 </div>
             </nav>
 
@@ -199,7 +217,7 @@
                     <a href="index.html" class="card-back-btn">← BACK</a>
                     <header>
                         <h1>Lumina</h1>
-                        <span class="subtitle">A modern tray-resident brightness controller for multi-monitor Windows setups</span>
+                        <span class="subtitle">マルチモニター向け、タスクバー常駐のモダンな明るさコントローラー</span>
                     </header>
 
                     <div class="main-image"><img src="images/lumina-icon.svg" alt="Lumina icon" /></div>

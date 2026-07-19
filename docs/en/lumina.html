@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="ja">
+<html lang="en">
     <head>
-        <title>MeatCam - Yuga's Lab</title>
+        <title>Lumina - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="MeatCam — 色弱の方向けに、肉の焼け具合を斜線ハッチングで可視化するiOSアプリ。" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <meta name="description" content="Lumina — a resident Windows tool that adjusts DDC/CI monitor brightness right from the taskbar." />
+        <link rel="stylesheet" href="../assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
         <noscript><style>
             .global-header { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }
             .project-card { opacity: 1 !important; transform: none !important; }
@@ -24,8 +24,6 @@
                 display: none !important;
             }
 
-            /* main.js(テンプレート由来)が自動生成する旧ナビ要素。カスタムのside-navと
-               重なって上に乗り、実際のメニューボタンのクリックを奪ってしまうため無効化する */
             #navPanelToggle, #navPanel {
                 display: none !important;
             }
@@ -36,7 +34,7 @@
                 left: 0 !important;
                 width: 100% !important;
                 height: 100vh !important;
-                background-image: url("images/bg.jpg") !important;
+                background-image: url("../images/bg.jpg") !important;
                 background-size: cover !important;
                 background-repeat: no-repeat !important;
                 background-position: center 40% !important;
@@ -49,9 +47,6 @@
                 position: relative !important;
                 z-index: 2 !important;
                 background: transparent !important;
-                /* main.cssの既定#wrapperにoverflow:hiddenがあり、position:fixedの
-                   ヘッダーを実機iOS Safariでクリップしてしまう(デスクトップの
-                   Chromium/WebKitでは再現しない既知の挙動差)。ここで打ち消す */
                 overflow: visible !important;
             }
 
@@ -184,14 +179,14 @@
                         </svg>
                     </a>
                     <div class="lang-switch">
-                        <a href="meatcam.html" class="active">JA</a><span class="lang-sep">/</span><a href="en/meatcam.html">EN</a>
+                        <a href="../lumina.html">JA</a><span class="lang-sep">/</span><a href="lumina.html" class="active">EN</a>
                     </div>
                 </div>
-                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button></div>
+                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button></div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="Close menu">✕</button>
                 <div class="side-menu-list">
                     <div class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
@@ -206,8 +201,8 @@
                     </div>
                     <div class="side-menu-section">
                         <span class="side-menu-category">Language</span>
-                        <div class="side-menu-item"><a href="meatcam.html" class="side-menu-link">日本語 <span class="nav-badge active">JA</span></a></div>
-                        <div class="side-menu-item"><a href="en/meatcam.html" class="side-menu-link">English <span class="nav-badge coming">EN</span></a></div>
+                        <div class="side-menu-item"><a href="../lumina.html" class="side-menu-link">日本語 <span class="nav-badge coming">JA</span></a></div>
+                        <div class="side-menu-item"><a href="lumina.html" class="side-menu-link">English <span class="nav-badge active">EN</span></a></div>
                     </div>
                 </div>
             </nav>
@@ -216,31 +211,31 @@
                 <div class="project-card">
                     <a href="index.html" class="card-back-btn">← BACK</a>
                     <header>
-                        <h1>MeatCam</h1>
-                        <span class="subtitle">色弱の方向けの、生焼け可視化iOSアプリ</span>
+                        <h1>Lumina</h1>
+                        <span class="subtitle">A modern tray-resident brightness controller for multi-monitor Windows setups</span>
                     </header>
 
-                    <div class="main-image"><img src="images/meatcam-icon.svg" alt="MeatCam icon" /></div>
+                    <div class="main-image"><img src="../images/lumina-icon.svg" alt="Lumina icon" /></div>
 
                     <div class="content-section">
                         <h3>Overview</h3>
-                        <p>MeatCamは、色弱の方でも肉の焼け具合を判別しやすくするためのiOSアプリです。カメラをかざすと、まだ生っぽい部分に斜線ハッチングを重ねて表示します。色そのものではなく「模様(斜線)」を主な合図にしているため、赤/緑の色弱の方でも判別しやすいのが特徴です。</p>
+                        <p>Lumina is a resident Windows tool that lets you adjust the brightness of any DDC/CI-capable monitor with one click from the taskbar. Click the notification-area icon to bring up a modern slider panel and adjust every connected monitor directly. No more bouncing between Control Panel and each monitor's OSD buttons in a multi-monitor setup.</p>
                     </div>
 
                     <div class="content-section">
                         <h3>✨ Key Features</h3>
                         <div class="feature-grid">
                             <div class="feature-item">
-                                <strong>■ 色ではなく模様で伝える斜線ハッチング</strong>
-                                <p>生っぽい領域を薄いアンバー色の塗りだけでなく、斜線パターンで囲んで表示。色の判別が難しい場合でも、模様の有無で焼け具合を判断できるように設計しています。</p>
+                                <strong>■ A modern, tray-resident slider panel</strong>
+                                <p>Click the notification-area icon and a slider panel for every monitor fades and slides open. Rounded panel corners and a soft glow around the thumb while dragging give it a look that doesn't feel like a typical resident tray tool.</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ 差し替え可能な判定ロジック設計</strong>
-                                <p>判定処理は<code>DonenessAnalyzing</code>というprotocol越しに呼ばれる設計。現在は色相ベースのヒューリスティック判定(<code>HeuristicDonenessAnalyzer</code>)のみだが、将来Create MLで学習したセグメンテーションモデルに差し替えられるようになっている。</p>
+                                <strong>■ Independent sliders and a master fader, both at once</strong>
+                                <p>Each monitor's slider always moves independently. Turn on "Link sliders together" in the right-click menu and a dedicated master fader is added to the panel, letting you move every monitor together from there.</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ 実機カメラでのリアルタイム解析</strong>
-                                <p>AVFoundationでカメラ映像を取得し、フレームを間引きながら粗いグリッドに縮小して解析。発熱・電池消費を抑えつつ、実機上でリアルタイムに焼け具合を可視化する。</p>
+                                <strong>■ Asynchronous DDC/CI writes keep dragging light</strong>
+                                <p>Talking to a monitor over DDC/CI can take tens to ~100ms per call, but Lumina only keeps each monitor's latest target value and lets a background thread write it out whenever it's free — so the slider itself always stays responsive.</p>
                             </div>
                         </div>
                     </div>
@@ -249,24 +244,19 @@
                         <h3>📦 Package Structure</h3>
                         <div class="file-list">
                             <ul>
-                                <li><code>MeatCamApp.swift</code> — アプリのエントリポイント</li>
-                                <li><code>ContentView.swift</code> — メイン画面(カメラ映像 + ハッチング重ね合わせ + 凡例)</li>
-                                <li><code>CameraManager.swift</code> — カメラのキャプチャセッション管理</li>
-                                <li><code>DonenessAnalyzer.swift</code> — 「生っぽいか」の判定ロジック本体</li>
-                                <li><code>CameraPreviewView.swift</code> — カメラ映像プレビューのSwiftUI橋渡し</li>
-                                <li><code>RawRegionOverlayView.swift</code> — 斜線ハッチングの描画</li>
+                                <li><code>Lumina.exe</code> — the whole application, resident in the taskbar. No external tools needed.</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="download-area">
                         <div class="action-container">
-                            <a href="https://github.com/CAIN218/meat-cam" class="action-btn" target="_blank" rel="noopener noreferrer">VIEW ON GITHUB</a>
+                            <a href="https://github.com/CAIN218/Lumina/releases/latest" class="action-btn" target="_blank" rel="noopener noreferrer">DOWNLOAD</a>
                         </div>
-                        <p class="download-meta">対応環境: iOS 17以降(実機カメラが必要 / Xcodeでのビルドが必要)</p>
+                        <p class="download-meta">Requirements: Windows 10 / 11 (64-bit) / a DDC/CI-capable monitor</p>
                         <div class="warning-box">
-                            <h4>⚠️ 開発中のプロジェクトです</h4>
-                            <p>現在アプリストア配布は行っておらず、ソースコードをXcodeでビルドして実機にインストールする形になります。判定ロジックは未検証のヒューリスティックのため、実際の焼け具合と完全には一致しない場合があります。</p>
+                            <h4>⚠️ A note on Windows SmartScreen</h4>
+                            <p>This tool is an unsigned binary (.exe) from an independent developer, so Windows may show a protection warning the first time you run it. Downloading and running it is at your own risk. For peace of mind, the full source code is public on GitHub.</p>
                         </div>
                     </div>
                 </div>
@@ -274,17 +264,17 @@
 
             <footer id="custom-footer">
                 <a href="https://github.com/CAIN218?tab=repositories" class="footer-github-link icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a>
-                <div class="disclaimer-box"><p>【免責事項】本ウェブサイトで配布しているツールおよびスクリプトはすべて開発個人の責任において作成されたものです。万が一、本ツールの使用によって生じたデータ破損やシステム不具合等のいかなる損害についても、開発者は一切の責任を負いません。導入は自己責任でお願いいたします。</p></div>
+                <div class="disclaimer-box"><p>Disclaimer: All tools and scripts distributed on this website are created solely on the responsibility of the individual developer. The developer accepts no liability whatsoever for any data loss, system malfunction, or other damage arising from the use of these tools. Use them at your own risk.</p></div>
                 <div class="footer-copyright">&copy; Yuga Tanaka. All Rights Reserved.</div>
             </footer>
         </div>
 
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jquery.scrolly.min.js"></script>
-        <script src="assets/js/browser.min.js"></script>
-        <script src="assets/js/breakpoints.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/jquery.scrolly.min.js"></script>
+        <script src="../assets/js/browser.min.js"></script>
+        <script src="../assets/js/breakpoints.min.js"></script>
+        <script src="../assets/js/util.js"></script>
+        <script src="../assets/js/main.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 var sideNav = document.getElementById('side-nav');

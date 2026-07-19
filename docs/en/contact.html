@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html lang="ja">
+<html lang="en">
     <head>
         <title>Contact - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="Yuga's Lab へのお問い合わせページです。" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <meta name="description" content="Get in touch with Yuga's Lab." />
+        <link rel="stylesheet" href="../assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Monsieur+La+Doulaise&display=swap');
 
@@ -19,12 +19,12 @@
             #navPanelToggle, #navPanel { display: none !important; }
             #custom-parallax-bg {
                 position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100vh !important;
-                background-image: url("images/bg.jpg") !important; background-size: cover !important;
+                background-image: url("../images/bg.jpg") !important; background-size: cover !important;
                 background-repeat: no-repeat !important; background-position: center 40% !important;
                 z-index: 0 !important; transform: scale(1.15) !important; will-change: background-position;
             }
             #wrapper { position: relative !important; z-index: 2 !important; background: transparent !important; overflow: visible !important; }
-            
+
             .global-header {
                 position: fixed; top: 0; left: 0; width: 100%; height: 60px;
                 background: rgba(11, 14, 17, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -88,7 +88,7 @@
                 .contact-card { padding: 3.5rem 1.5rem 2.5rem 1.5rem !important; }
                 .global-header { padding: 0 1.5rem; }
             }
-            
+
             .form-group { margin-bottom: 2rem; text-align: left; }
             .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: #11161b; margin-bottom: 0.6rem; text-transform: uppercase; }
             .form-control {
@@ -123,14 +123,14 @@
                         </svg>
                     </a>
                     <div class="lang-switch">
-                        <a href="contact.html" class="active">JA</a><span class="lang-sep">/</span><a href="en/contact.html">EN</a>
+                        <a href="../contact.html">JA</a><span class="lang-sep">/</span><a href="contact.html" class="active">EN</a>
                     </div>
                 </div>
-                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button></div>
+                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button></div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="Close menu">✕</button>
                 <ul class="side-menu-list">
                     <li class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
@@ -145,8 +145,8 @@
                     </li>
                     <li class="side-menu-section">
                         <span class="side-menu-category">Language</span>
-                        <div class="side-menu-item"><a href="contact.html" class="side-menu-link">日本語 <span class="nav-badge active">JA</span></a></div>
-                        <div class="side-menu-item"><a href="en/contact.html" class="side-menu-link">English <span class="nav-badge coming">EN</span></a></div>
+                        <div class="side-menu-item"><a href="../contact.html" class="side-menu-link">日本語 <span class="nav-badge coming">JA</span></a></div>
+                        <div class="side-menu-item"><a href="contact.html" class="side-menu-link">English <span class="nav-badge active">EN</span></a></div>
                     </li>
                 </ul>
             </nav>
@@ -154,9 +154,8 @@
             <div id="main">
                 <div class="contact-card">
                     <h1>Contact</h1>
-                    <span class="subtitle">ご質問・ご意見はこちらから</span>
-                    
-                    <!-- 🛠️ 変更：Formspreeのアクションを直挿入 -->
+                    <span class="subtitle">Get in touch for questions or feedback</span>
+
                     <form action="https://formspree.io/f/xkoldvjp" method="POST">
                         <div class="form-group">
                             <label for="name">Name</label>
