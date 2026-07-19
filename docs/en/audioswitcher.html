@@ -65,17 +65,36 @@
                 pointer-events: auto !important;
             }
 
-            .header-left { display: flex; align-items: center; gap: 1rem; }
-            .header-logo-svg-wrapper { text-decoration: none !important; border-bottom: none !important; display: inline-block; height: 45px; box-sizing: border-box; }
+            .header-logo-svg-wrapper { text-decoration: none !important; border-bottom: none !important; display: inline-block; height: 45px; }
             .header-signature-svg { width: 145px; height: auto; overflow: visible; }
             .signature-text-node { font-family: 'Monsieur La Doulaise', cursive !important; font-size: 32px; fill: #ffffff; opacity: 0.95; }
 
-            .lang-switch { display: flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; }
-            .lang-switch a { color: rgba(255,255,255,0.45) !important; text-decoration: none !important; border-bottom: none !important; transition: color 0.2s ease; }
-            .lang-switch a:hover { color: #ffffff !important; }
-            .lang-switch a.active { color: #d68a4c !important; pointer-events: none; }
-            .lang-switch .lang-sep { color: rgba(255,255,255,0.2); }
-            @media screen and (max-width: 480px) { .lang-switch { display: none; } }
+            .header-right { display: flex; align-items: center; gap: 1.1rem; }
+
+            .lang-dropdown { position: relative; }
+            .lang-dropdown-trigger {
+                background: transparent !important; border: 1px solid rgba(255,255,255,0.14) !important; border-radius: 4px;
+                color: rgba(255,255,255,0.45) !important; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em;
+                padding: 0.32rem 0.55rem; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;
+                transition: color 0.2s ease, border-color 0.2s ease; box-shadow: none !important;
+            }
+            .lang-dropdown-trigger:hover { color: rgba(255,255,255,0.85) !important; border-color: rgba(255,255,255,0.28) !important; }
+            .lang-dropdown-caret { font-size: 0.55rem; opacity: 0.7; transition: transform 0.2s ease; }
+            .lang-dropdown.open .lang-dropdown-caret { transform: rotate(180deg); }
+            .lang-dropdown-menu {
+                position: absolute; top: calc(100% + 8px); right: 0; min-width: 96px;
+                background: rgba(18,16,22,0.98); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.45); padding: 0.35rem; z-index: 300;
+                opacity: 0; visibility: hidden; transform: translateY(-4px);
+                transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+            }
+            .lang-dropdown.open .lang-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+            .lang-dropdown-menu a {
+                display: block; padding: 0.4rem 0.6rem; font-size: 0.75rem; font-weight: 600;
+                color: rgba(255,255,255,0.7) !important; text-decoration: none !important; border-bottom: none !important;
+                border-radius: 5px; transition: background 0.15s ease, color 0.15s ease;
+            }
+            .lang-dropdown-menu a:hover { background: rgba(255,255,255,0.08); color: #ffffff !important; }
 
             .menu-trigger-btn {
                 background: transparent !important; border: none !important; cursor: pointer;
@@ -163,8 +182,7 @@
 
         <div id="wrapper">
             <header class="global-header" id="global-header">
-                <div class="header-left">
-                    <a href="index.html" class="header-logo-svg-wrapper">
+                <a href="index.html" class="header-logo-svg-wrapper">
                         <svg class="header-signature-svg" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg">
                             <polygon points="5,12 12,6 19,12 12,18" fill="none" stroke="#ffffff" stroke-width="1.1" stroke-linejoin="round" />
                             <path d="M 5,12 C -2,26 28,38 70,38 L 155,38" fill="none" stroke="url(#line-fade)" stroke-width="1" stroke-linecap="round" />
@@ -178,11 +196,15 @@
                             <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
                         </svg>
                     </a>
-                    <div class="lang-switch">
-                        <a href="../audioswitcher.html">JA</a><span class="lang-sep">/</span><a href="audioswitcher.html" class="active">EN</a>
+                <div class="header-right">
+                    <div class="lang-dropdown" id="lang-dropdown">
+                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="Select language" aria-haspopup="true">EN <span class="lang-dropdown-caret">▾</span></button>
+                        <div class="lang-dropdown-menu" id="lang-dropdown-menu">
+                            <a href="../audioswitcher.html">日本語</a>
+                        </div>
                     </div>
+                    <button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button>
                 </div>
-                <div class="header-right"><button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button></div>
             </header>
 
             <nav class="side-nav" id="side-nav">
@@ -198,11 +220,6 @@
                         <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="lumina.html" class="side-menu-link">Lumina <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="meatcam.html" class="side-menu-link">MeatCam <span class="nav-badge active">IN DEV</span></a></div>
-                    </div>
-                    <div class="side-menu-section">
-                        <span class="side-menu-category">Language</span>
-                        <div class="side-menu-item"><a href="../audioswitcher.html" class="side-menu-link">日本語 <span class="nav-badge coming">JA</span></a></div>
-                        <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">English <span class="nav-badge active">EN</span></a></div>
                     </div>
                 </div>
             </nav>
@@ -284,6 +301,18 @@
                 document.getElementById('menu-open').addEventListener('click', function() { sideNav.classList.add('open'); });
                 document.getElementById('menu-close').addEventListener('click', function() { sideNav.classList.remove('open'); });
                 document.addEventListener('click', function(e) { if (!sideNav.contains(e.target) && !document.getElementById('menu-open').contains(e.target)) sideNav.classList.remove('open'); });
+
+                var langDropdown = document.getElementById('lang-dropdown');
+                var langDropdownTrigger = document.getElementById('lang-dropdown-trigger');
+                if (langDropdown && langDropdownTrigger) {
+                    langDropdownTrigger.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        langDropdown.classList.toggle('open');
+                    });
+                    document.addEventListener('click', function(e) {
+                        if (!langDropdown.contains(e.target)) langDropdown.classList.remove('open');
+                    });
+                }
 
                 function triggerHeader() {
                     if (!headerTriggered && header) {
