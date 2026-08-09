@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="ja">
+<html lang="en">
     <head>
         <title>Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="Yuga's Lab — 個人開発のWindows向けユーティリティソフトを公開しています。" />
+        <meta name="description" content="Yuga's Lab — indie Windows utility software, built and shared here." />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
         <noscript><style>
@@ -19,13 +19,13 @@
                 background-image: none !important;
                 font-family: "Inter", "Noto Sans JP", sans-serif !important;
             }
-            
+
             .bg, #bg {
                 display: none !important;
             }
 
-            /* main.js(テンプレート由来)が自動生成する旧ナビ要素。カスタムのside-navと
-               重なって上に乗り、実際のメニューボタンのクリックを奪ってしまうため無効化する */
+            /* Legacy nav element auto-injected by main.js (from the base template). It
+               overlaps the custom side-nav and steals clicks from the real menu button. */
             #navPanelToggle, #navPanel {
                 display: none !important;
             }
@@ -44,14 +44,14 @@
                 transform: scale(1.15) !important;
                 will-change: background-position;
             }
-            
+
             #wrapper {
                 position: relative !important;
                 z-index: 2 !important;
                 background: transparent !important;
-                /* main.cssの既定#wrapperにoverflow:hiddenがあり、position:fixedの
-                   ヘッダーを実機iOS Safariでクリップしてしまう(デスクトップの
-                   Chromium/WebKitでは再現しない既知の挙動差)。ここで打ち消す */
+                /* main.css's default #wrapper has overflow:hidden, which clips the
+                   position:fixed header on real iOS Safari (not reproducible on
+                   desktop Chromium/WebKit). Override it here. */
                 overflow: visible !important;
             }
 
@@ -69,7 +69,7 @@
                 transform: translateY(0);
                 pointer-events: auto;
             }
-            
+
             .header-logo-svg-wrapper { text-decoration: none !important; border-bottom: none !important; display: inline-block; height: 45px; }
             .header-signature-svg { width: 145px; height: auto; overflow: visible; }
             .signature-text-node { font-family: 'Monsieur La Doulaise', cursive !important; font-size: 32px; fill: #ffffff; opacity: 0.95; }
@@ -119,26 +119,26 @@
                 border-left: 1px solid rgba(255, 255, 255, 0.08); box-shadow: -15px 0 45px rgba(0, 0, 0, 0.6); box-sizing: border-box;
             }
             .side-nav.open { right: 0; }
-            
+
             .side-nav-close {
                 position: absolute; top: 22px; right: 2.2rem;
                 background: transparent !important; border: none !important; box-shadow: none !important; outline: none !important;
                 color: #ffffff !important; font-size: 1.4rem; cursor: pointer; opacity: 0.5; padding: 0 !important; transition: opacity 0.2s ease;
             }
             .side-nav-close:hover { opacity: 1; }
-            
+
             .side-menu-list { list-style: none; padding: 0; margin: 0; }
             .side-menu-section { margin-bottom: 3rem; }
-            
+
             .side-menu-category {
                 display: block; font-size: 0.72rem; color: #94a3b8 !important; font-weight: 700;
                 text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.2rem;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.5rem;
                 text-shadow: 0 1px 2px rgba(0,0,0,0.5);
             }
-            
+
             .side-menu-item { margin-bottom: 1.5rem; }
-            
+
             .side-menu-link {
                 color: #ffffff !important; text-decoration: none !important; font-size: 0.95rem; font-weight: 600;
                 border-bottom: none !important; transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -150,13 +150,13 @@
                 text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
             }
             .side-menu-link.status-coming { color: rgba(255, 255, 255, 0.2) !important; cursor: not-allowed !important; pointer-events: none !important; }
-            
+
             .nav-badge { font-size: 0.65rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
             .nav-badge.active { background: rgba(214, 138, 76, 0.15); color: #d68a4c; border: 1px solid rgba(214, 138, 76, 0.35); }
             .nav-badge.coming { background: rgba(255, 255, 255, 0.03); color: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.05); }
 
             #intro { height: 100vh !important; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem !important; text-align: center; background: transparent !important; position: relative; z-index: 2; }
-            
+
             .brand-logo-svg {
                 width: 520px;
                 height: 160px;
@@ -211,12 +211,10 @@
 
             #main { border: none !important; background-color: transparent !important; max-width: 1140px; margin: 0 auto !important; padding: 6rem 2rem 12rem 2rem !important; position: relative; z-index: 3; }
             .posts { background-color: transparent !important; display: flex !important; flex-wrap: wrap; justify-content: space-between; gap: 3.5rem !important; }
-            
+
             .posts article {
                 width: calc(50% - 1.75rem) !important; background: rgba(255, 255, 255, 0.98) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-radius: 14px !important; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); padding: 3rem 2.5rem 2.5rem 2.5rem !important;
                 display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center; opacity: 0; transform: translateY(15px); will-change: opacity, transform; box-sizing: border-box !important;
-                /* .imageは角丸0のまま角までフチいっぱいに画像をブリードさせているため、
-                   親側でクリップしないと画像の四角い角がカードの丸みからはみ出る */
                 overflow: hidden !important;
             }
             @media screen and (max-width: 840px) { .posts { flex-direction: column; gap: 3rem !important; } .posts article { width: 100% !important; } .posts article .image img { aspect-ratio: 21 / 9; object-fit: cover; height: auto; } }
@@ -225,7 +223,7 @@
             .posts article.show-card { opacity: 1 !important; transform: translateY(0); transition: opacity 450ms ease, transform 450ms ease !important; }
             .posts article:nth-child(1).show-card { transition-delay: 0ms !important; }
             .posts article:nth-child(2).show-card { transition-delay: 180ms !important; }
-            
+
             .posts article.show-card:hover { transform: translateY(-4px) !important; box-shadow: 0 35px 70px rgba(0, 0, 0, 0.3); transition: transform 200ms ease, box-shadow 200ms ease !important; }
 
             .posts article header { width: 100%; }
@@ -239,13 +237,13 @@
             .posts article p { font-size: 0.9rem; color: #3b434e !important; line-height: 1.6; margin-bottom: 2rem !important; padding: 0 1.5rem; flex-grow: 1; }
 
             .posts article .actions.special { margin: 0 !important; width: 100%; display: flex; justify-content: center; }
-            
+
             .button.more-btn {
                 background-color: transparent !important; color: #11161b !important; border: 1px solid #11161b !important; border-radius: 5px !important; font-weight: 600 !important; font-size: 0.75rem !important; letter-spacing: 0.05em;
                 width: 160px !important; height: 2.7rem !important; line-height: 2.6rem !important; padding: 0 !important; text-align: center !important; display: inline-block !important; transition: all 0.2s ease !important; box-sizing: border-box !important;
             }
             .button.more-btn:not(.coming-btn):hover { background-color: #11161b !important; color: #ffffff !important; box-shadow: 0 4px 12px rgba(17,22,27,0.1); }
-            
+
             .button.coming-btn { color: #94a3b8 !important; border-color: #cbd5e1 !important; background-color: rgba(0, 0, 0, 0.02) !important; cursor: not-allowed !important; pointer-events: none !important; }
 
             #custom-footer { padding: 3rem 1.5rem 6rem 1.5rem; text-align: center; position: relative; z-index: 3; background: linear-gradient(180deg, rgba(11,14,17,0) 0%, rgba(11,14,17,0.75) 30%, rgba(11,14,17,0.92) 100%); }
@@ -262,37 +260,36 @@
         <div id="wrapper" class="fade-in">
             <header class="global-header" id="global-header">
                 <a href="index.html" class="header-logo-svg-wrapper">
-                    <svg class="header-signature-svg" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg">
-                        <polygon points="5,12 12,6 19,12 12,18" fill="none" stroke="#ffffff" stroke-width="1.1" stroke-linejoin="round" />
-                        <path d="M 5,12 C -2,26 28,38 70,38 L 155,38" fill="none" stroke="url(#line-fade)" stroke-width="1" stroke-linecap="round" />
-                        <defs>
-                            <linearGradient id="line-fade" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
-                                <stop offset="70%" stop-color="rgba(255,255,255,0.25)" />
-                                <stop offset="100%" stop-color="rgba(255,255,255,0)" />
-                            </linearGradient>
-                        </defs>
-                        <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
-                    </svg>
-                </a>
+                        <svg class="header-signature-svg" viewBox="0 0 160 45" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="5,12 12,6 19,12 12,18" fill="none" stroke="#ffffff" stroke-width="1.1" stroke-linejoin="round" />
+                            <path d="M 5,12 C -2,26 28,38 70,38 L 155,38" fill="none" stroke="url(#line-fade)" stroke-width="1" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="line-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="rgba(255,255,255,0.6)" />
+                                    <stop offset="70%" stop-color="rgba(255,255,255,0.25)" />
+                                    <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+                                </linearGradient>
+                            </defs>
+                            <text x="28" y="32" class="signature-text-node">Yuga's Lab.</text>
+                        </svg>
+                    </a>
                 <div class="header-right">
                     <div class="lang-dropdown" id="lang-dropdown">
-                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="言語を選択" aria-haspopup="true">JA <span class="lang-dropdown-caret">▾</span></button>
+                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="Select language" aria-haspopup="true">EN <span class="lang-dropdown-caret">▾</span></button>
                         <div class="lang-dropdown-menu" id="lang-dropdown-menu">
-                            <a href="en/index.html">English</a>
+                            <a href="ja/index.html">日本語</a>
                         </div>
                     </div>
-                    <button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button>
+                    <button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button>
                 </div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="Close menu">✕</button>
                 <ul class="side-menu-list">
                     <li class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
                         <div class="side-menu-item"><a href="index.html" class="side-menu-link">HOME</a></div>
-                        <!-- 🛠️ 確定修正：リンク先をお問い合わせページ（contact.html）へ完全連動 -->
                         <div class="side-menu-item"><a href="contact.html" class="side-menu-link" id="menu-link-contact">CONTACT</a></div>
                     </li>
                     <li class="side-menu-section">
@@ -328,10 +325,10 @@
                         <header>
                             <span class="date">2026 / 07 / 19</span>
                             <h2><a href="lumina.html">Lumina</a></h2>
-                            <span class="subtitle">タスクバーからワンクリックで、複数モニターの明るさを調整</span>
+                            <span class="subtitle">Tray-Resident Brightness Control for Multi-Monitor Setups</span>
                         </header>
                         <a href="lumina.html" class="image fit"><img src="images/lumina-icon.svg" alt="Lumina icon" /></a>
-                        <p>タスクバーのアイコンから、複数モニターの明るさをモダンなスライダーパネルでワンクリック調整。</p>
+                        <p>Adjust brightness across multiple monitors from a modern slider panel, one click away from the taskbar.</p>
                         <ul class="actions special">
                             <li><a href="lumina.html" class="button more-btn">MORE</a></li>
                         </ul>
@@ -341,10 +338,10 @@
                         <header>
                             <span class="date">2026 / 07 / 18</span>
                             <h2><a href="meatcam.html">MeatCam</a></h2>
-                            <span class="subtitle">色弱の方でも焼け具合がひと目でわかるカメラアプリ</span>
+                            <span class="subtitle">Raw Meat Doneness Visualizer for the Colorblind</span>
                         </header>
                         <a href="meatcam.html" class="image fit"><img src="images/meatcam-icon.svg" alt="MeatCam icon" /></a>
-                        <p>色弱の方向けに、カメラをかざすとまだ生っぽい部分に斜線ハッチングを重ねて可視化するiOSアプリ。</p>
+                        <p>An iOS app for the colorblind that overlays diagonal hatching on parts of your camera view that still look raw.</p>
                         <ul class="actions special">
                             <li><a href="meatcam.html" class="button more-btn">MORE</a></li>
                         </ul>
@@ -354,10 +351,10 @@
                         <header>
                             <span class="date">2026 / 07 / 18</span>
                             <h2><a href="audioswitcher.html">AudioSwitcher</a></h2>
-                            <span class="subtitle">ワンキーでオーディオ出力をパッと切り替え</span>
+                            <span class="subtitle">Switch Windows Audio Devices Instantly</span>
                         </header>
                         <a href="audioswitcher.html" class="image fit"><img src="images/audioswitcher-icon.svg" alt="AudioSwitcher icon" /></a>
-                        <p>ショートカットキーひとつでWindowsの音声出力を瞬時に切り替える軽量ツール。</p>
+                        <p>A lightweight tool that switches your Windows audio output instantly with a single shortcut key.</p>
                         <ul class="actions special">
                             <li><a href="audioswitcher.html" class="button more-btn">MORE</a></li>
                         </ul>
@@ -369,7 +366,7 @@
             <footer id="custom-footer">
                 <a href="https://github.com/CAIN218?tab=repositories" class="footer-github-link icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a>
                 <div class="disclaimer-box">
-                    <p>【免責事項】本ウェブサイトで配布しているツールおよびスクリプトはすべて開発個人の責任において作成されたものです。万が一、本ツールの使用によって生じたデータ破損やシステム不具合等のいかなる損害についても、開発者は一切の責任を負いません。導入は自己責任でお願いいたします。</p>
+                    <p>Disclaimer: All tools and scripts distributed on this website are created solely on the responsibility of the individual developer. The developer accepts no liability whatsoever for any data loss, system malfunction, or other damage arising from the use of these tools. Use them at your own risk.</p>
                 </div>
                 <div class="footer-copyright">&copy; Yuga Tanaka. All Rights Reserved.</div>
             </footer>

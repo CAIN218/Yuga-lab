@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="ja">
     <head>
         <title>Contact - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="Get in touch with Yuga's Lab." />
+        <meta name="description" content="Yuga's Lab へのお問い合わせページです。" />
         <link rel="stylesheet" href="../assets/css/main.css" />
         <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
         <style>
@@ -24,7 +24,7 @@
                 z-index: 0 !important; transform: scale(1.15) !important; will-change: background-position;
             }
             #wrapper { position: relative !important; z-index: 2 !important; background: transparent !important; overflow: visible !important; }
-
+            
             .global-header {
                 position: fixed; top: 0; left: 0; width: 100%; height: 60px;
                 background: rgba(11, 14, 17, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -107,7 +107,7 @@
                 .contact-card { padding: 3.5rem 1.5rem 2.5rem 1.5rem !important; }
                 .global-header { padding: 0 1.5rem; }
             }
-
+            
             .form-group { margin-bottom: 2rem; text-align: left; }
             .form-group label { display: block; font-size: 0.82rem; font-weight: 700; color: #11161b; margin-bottom: 0.6rem; text-transform: uppercase; }
             .form-control {
@@ -142,17 +142,17 @@
                     </a>
                 <div class="header-right">
                     <div class="lang-dropdown" id="lang-dropdown">
-                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="Select language" aria-haspopup="true">EN <span class="lang-dropdown-caret">▾</span></button>
+                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="言語を選択" aria-haspopup="true">JA <span class="lang-dropdown-caret">▾</span></button>
                         <div class="lang-dropdown-menu" id="lang-dropdown-menu">
-                            <a href="../contact.html">日本語</a>
+                            <a href="../contact.html">English</a>
                         </div>
                     </div>
-                    <button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button>
+                    <button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button>
                 </div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close" aria-label="Close menu">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
                 <ul class="side-menu-list">
                     <li class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
@@ -171,8 +171,9 @@
             <div id="main">
                 <div class="contact-card">
                     <h1>Contact</h1>
-                    <span class="subtitle">Get in touch for questions or feedback</span>
-
+                    <span class="subtitle">ご質問・ご意見はこちらから</span>
+                    
+                    <!-- 🛠️ 変更：Formspreeのアクションを直挿入 -->
                     <form action="https://formspree.io/f/xkoldvjp" method="POST">
                         <div class="form-group">
                             <label for="name">Name</label>

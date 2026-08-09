@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="ja">
     <head>
-        <title>AudioSwitcher - Yuga's Lab</title>
+        <title>MeatCam - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="AudioSwitcher — a lightweight, resident Windows tool that switches audio output devices instantly with a global hotkey." />
+        <meta name="description" content="MeatCam — 色弱の方向けに、肉の焼け具合を斜線ハッチングで可視化するiOSアプリ。" />
         <link rel="stylesheet" href="../assets/css/main.css" />
         <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
         <noscript><style>
@@ -24,6 +24,8 @@
                 display: none !important;
             }
 
+            /* main.js(テンプレート由来)が自動生成する旧ナビ要素。カスタムのside-navと
+               重なって上に乗り、実際のメニューボタンのクリックを奪ってしまうため無効化する */
             #navPanelToggle, #navPanel {
                 display: none !important;
             }
@@ -47,6 +49,9 @@
                 position: relative !important;
                 z-index: 2 !important;
                 background: transparent !important;
+                /* main.cssの既定#wrapperにoverflow:hiddenがあり、position:fixedの
+                   ヘッダーを実機iOS Safariでクリップしてしまう(デスクトップの
+                   Chromium/WebKitでは再現しない既知の挙動差)。ここで打ち消す */
                 overflow: visible !important;
             }
 
@@ -198,17 +203,17 @@
                     </a>
                 <div class="header-right">
                     <div class="lang-dropdown" id="lang-dropdown">
-                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="Select language" aria-haspopup="true">EN <span class="lang-dropdown-caret">▾</span></button>
+                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="言語を選択" aria-haspopup="true">JA <span class="lang-dropdown-caret">▾</span></button>
                         <div class="lang-dropdown-menu" id="lang-dropdown-menu">
-                            <a href="../audioswitcher.html">日本語</a>
+                            <a href="../meatcam.html">English</a>
                         </div>
                     </div>
-                    <button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button>
+                    <button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button>
                 </div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close" aria-label="Close menu">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
                 <div class="side-menu-list">
                     <div class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
@@ -228,31 +233,31 @@
                 <div class="project-card">
                     <a href="index.html" class="card-back-btn">← BACK</a>
                     <header>
-                        <h1>AudioSwitcher</h1>
-                        <span class="subtitle">A lightweight, standalone audio device switching utility for Windows</span>
+                        <h1>MeatCam</h1>
+                        <span class="subtitle">色弱の方向けに、生焼けをひと目で見分けられるカメラアプリ</span>
                     </header>
 
-                    <div class="main-image"><img src="../images/audioswitcher-icon.svg" alt="AudioSwitcher icon" /></div>
+                    <div class="main-image"><img src="../images/meatcam-icon.svg" alt="MeatCam icon" /></div>
 
                     <div class="content-section">
                         <h3>Overview</h3>
-                        <p>AudioSwitcher is a resident Windows utility built for practical, everyday use: instantly reroute audio playback devices — built-in display speakers, headsets, external DACs, and more — with a single global shortcut key. It removes the hassle of digging through Control Panel or the taskbar, giving you seamless output switching mid-game or anywhere in your workspace.</p>
+                        <p>MeatCamは、色弱の方でも肉の焼け具合を判別しやすくするためのiOSアプリです。カメラをかざすと、まだ生っぽい部分に斜線ハッチングを重ねて表示します。色そのものではなく「模様(斜線)」を主な合図にしているため、赤/緑の色弱の方でも判別しやすいのが特徴です。</p>
                     </div>
 
                     <div class="content-section">
                         <h3>Key Features</h3>
                         <div class="feature-grid">
                             <div class="feature-item">
-                                <strong>■ A fade notification synced to the taskbar</strong>
-                                <p>When a switch is triggered, a smooth fade notification overlays precisely on the taskbar clock area in the bottom-right corner. The design goal is extreme minimalism — never getting in the way of your work or on-screen content.</p>
+                                <strong>■ 色ではなく模様で伝える斜線ハッチング</strong>
+                                <p>生っぽい領域を薄いアンバー色の塗りだけでなく、斜線パターンで囲んで表示。色の判別が難しい場合でも、模様の有無で焼け具合を判断できるように設計しています。</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ No more conflicts between identically-named devices</strong>
-                                <p>Windows frequently misidentifies audio devices that share the same product name. AudioSwitcher solves this by reading each device's persistent unique identifier directly from the Windows Core Audio API (pycaw), keeping routing 100% accurate without relying on any external tool.</p>
+                                <strong>■ 差し替え可能な判定ロジック設計</strong>
+                                <p>判定処理は<code>DonenessAnalyzing</code>というprotocol越しに呼ばれる設計。現在は色相ベースのヒューリスティック判定(<code>HeuristicDonenessAnalyzer</code>)のみだが、将来Create MLで学習したセグメンテーションモデルに差し替えられるようになっている。</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ Smart auto-registration for startup</strong>
-                                <p>Built-in logic for registering itself in the Windows startup folder. It automatically detects whether it's running as a raw script or a compiled single-file binary (exe), and gets a stable background process running immediately either way.</p>
+                                <strong>■ 実機カメラでのリアルタイム解析</strong>
+                                <p>AVFoundationでカメラ映像を取得し、フレームを間引きながら粗いグリッドに縮小して解析。発熱・電池消費を抑えつつ、実機上でリアルタイムに焼け具合を可視化する。</p>
                             </div>
                         </div>
                     </div>
@@ -261,19 +266,24 @@
                         <h3>Package Structure</h3>
                         <div class="file-list">
                             <ul>
-                                <li><code>AudioSwitcher.exe</code> — the whole application, self-contained down to device control. No external tools needed.</li>
+                                <li><code>MeatCamApp.swift</code> — アプリのエントリポイント</li>
+                                <li><code>ContentView.swift</code> — メイン画面(カメラ映像 + ハッチング重ね合わせ + 凡例)</li>
+                                <li><code>CameraManager.swift</code> — カメラのキャプチャセッション管理</li>
+                                <li><code>DonenessAnalyzer.swift</code> — 「生っぽいか」の判定ロジック本体</li>
+                                <li><code>CameraPreviewView.swift</code> — カメラ映像プレビューのSwiftUI橋渡し</li>
+                                <li><code>RawRegionOverlayView.swift</code> — 斜線ハッチングの描画</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="download-area">
                         <div class="action-container">
-                            <a href="https://github.com/CAIN218/audio-switcher/releases/latest" class="action-btn" target="_blank" rel="noopener noreferrer">DOWNLOAD</a>
+                            <a href="https://github.com/CAIN218/meat-cam" class="action-btn" target="_blank" rel="noopener noreferrer">VIEW ON GITHUB</a>
                         </div>
-                        <p class="download-meta">Requirements: Windows 10 / 11 (64-bit)</p>
+                        <p class="download-meta">対応環境: iOS 17以降(実機カメラが必要 / Xcodeでのビルドが必要)</p>
                         <div class="warning-box">
-                            <h4>⚠️ A note on Windows SmartScreen</h4>
-                            <p>This tool is an unsigned binary (.exe) from an independent developer, so Windows may show a protection warning the first time you run it. Downloading and running it is at your own risk. For peace of mind, the full source code is public on GitHub.</p>
+                            <h4>⚠️ 開発中のプロジェクトです</h4>
+                            <p>現在アプリストア配布は行っておらず、ソースコードをXcodeでビルドして実機にインストールする形になります。判定ロジックは未検証のヒューリスティックのため、実際の焼け具合と完全には一致しない場合があります。</p>
                         </div>
                     </div>
                 </div>
@@ -281,7 +291,7 @@
 
             <footer id="custom-footer">
                 <a href="https://github.com/CAIN218?tab=repositories" class="footer-github-link icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a>
-                <div class="disclaimer-box"><p>Disclaimer: All tools and scripts distributed on this website are created solely on the responsibility of the individual developer. The developer accepts no liability whatsoever for any data loss, system malfunction, or other damage arising from the use of these tools. Use them at your own risk.</p></div>
+                <div class="disclaimer-box"><p>【免責事項】本ウェブサイトで配布しているツールおよびスクリプトはすべて開発個人の責任において作成されたものです。万が一、本ツールの使用によって生じたデータ破損やシステム不具合等のいかなる損害についても、開発者は一切の責任を負いません。導入は自己責任でお願いいたします。</p></div>
                 <div class="footer-copyright">&copy; Yuga Tanaka. All Rights Reserved.</div>
             </footer>
         </div>

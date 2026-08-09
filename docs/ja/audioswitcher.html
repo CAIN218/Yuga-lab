@@ -1,10 +1,10 @@
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="ja">
     <head>
-        <title>MeatCam - Yuga's Lab</title>
+        <title>AudioSwitcher - Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <meta name="description" content="MeatCam — an iOS app that visualizes meat doneness with diagonal hatching, for colorblind users." />
+        <meta name="description" content="AudioSwitcher — グローバルショートカットキーでWindowsのオーディオ出力デバイスを瞬時に切り替える軽量常駐ツール。" />
         <link rel="stylesheet" href="../assets/css/main.css" />
         <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
         <noscript><style>
@@ -19,11 +19,13 @@
                 background-image: none !important;
                 font-family: "Inter", "Noto Sans JP", sans-serif !important;
             }
-
+            
             .bg, #bg {
                 display: none !important;
             }
 
+            /* main.js(テンプレート由来)が自動生成する旧ナビ要素。カスタムのside-navと
+               重なって上に乗り、実際のメニューボタンのクリックを奪ってしまうため無効化する */
             #navPanelToggle, #navPanel {
                 display: none !important;
             }
@@ -42,11 +44,14 @@
                 transform: scale(1.15) !important;
                 will-change: background-position;
             }
-
+            
             #wrapper {
                 position: relative !important;
                 z-index: 2 !important;
                 background: transparent !important;
+                /* main.cssの既定#wrapperにoverflow:hiddenがあり、position:fixedの
+                   ヘッダーを実機iOS Safariでクリップしてしまう(デスクトップの
+                   Chromium/WebKitでは再現しない既知の挙動差)。ここで打ち消す */
                 overflow: visible !important;
             }
 
@@ -64,7 +69,7 @@
                 transform: translateY(0) !important;
                 pointer-events: auto !important;
             }
-
+            
             .header-logo-svg-wrapper { text-decoration: none !important; border-bottom: none !important; display: inline-block; height: 45px; }
             .header-signature-svg { width: 145px; height: auto; overflow: visible; }
             .signature-text-node { font-family: 'Monsieur La Doulaise', cursive !important; font-size: 32px; fill: #ffffff; opacity: 0.95; }
@@ -112,18 +117,18 @@
                 box-shadow: -15px 0 45px rgba(0, 0, 0, 0.6); z-index: 200; padding: 6rem 2.2rem; box-sizing: border-box; transition: right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); border-left: 1px solid rgba(255, 255, 255, 0.08);
             }
             .side-nav.open { right: 0; }
-
+            
             .side-nav-close {
                 position: absolute; top: 22px; right: 2.2rem;
                 background: transparent !important; border: none !important; box-shadow: none !important; outline: none !important;
                 color: #ffffff !important; font-size: 1.4rem; cursor: pointer; opacity: 0.5; padding: 0 !important; transition: opacity 0.2s ease;
             }
             .side-nav-close:hover { opacity: 1; }
-
+            
             .side-menu-list { list-style: none; padding: 0; margin: 0; }
             .side-menu-section { margin-bottom: 2.5rem; }
             .side-menu-category { display: block; font-size: 0.72rem; color: #94a3b8 !important; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.4rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
-
+            
             .side-menu-item { margin-bottom: 1.5rem; }
             .side-menu-link { color: #ffffff !important; text-decoration: none !important; font-size: 0.95rem; font-weight: 600; border-bottom: none !important; transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94); display: inline-flex; align-items: center; justify-content: space-between; width: 100%; opacity: 0.85; }
             .side-menu-link:hover:not(.status-coming) { opacity: 1 !important; transform: translateX(6px); color: #ffffff !important; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); }
@@ -136,7 +141,7 @@
             #main { border: none !important; background-color: transparent !important; max-width: 900px; margin: 0 auto !important; padding: 8rem 2rem 12rem 2rem !important; position: relative; z-index: 3; }
             .project-card { position: relative; background: rgba(255, 255, 255, 0.98) !important; border: 1px solid rgba(0, 0, 0, 0.05) !important; border-radius: 14px !important; box-shadow: 0 25px 55px rgba(0, 0, 0, 0.2); padding: 5rem 3.5rem 4rem 3.5rem !important; opacity: 0; transform: translateY(15px); will-change: opacity, transform; transition: opacity 400ms ease, transform 400ms ease !important; box-sizing: border-box !important; overflow: hidden !important; }
             .project-card.show-card { opacity: 1 !important; transform: translateY(0); }
-
+            
             .card-back-btn { position: absolute; top: 2rem; left: 3.5rem; color: #94a3b8 !important; text-decoration: none !important; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; border-bottom: none !important; transition: color 0.2s; }
             .card-back-btn:hover { color: #11161b !important; }
             @media screen and (max-width: 736px) { .project-card { padding: 4rem 1.5rem 2.5rem 1.5rem !important; } .project-card .main-image { margin: 2rem -1.5rem 3rem -1.5rem !important; } .project-card .main-image img { aspect-ratio: 21 / 9; object-fit: cover; height: auto; } .global-header { padding: 0 1.5rem; } .card-back-btn { top: 1.5rem; left: 1.5rem; } }
@@ -159,7 +164,7 @@
             .file-list code { background: #e2e8f0; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.85rem; color: #0f172a; margin-right: 0.5rem; }
 
             .download-area { text-align: center; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid #e2e8f0; }
-
+            
             .action-container { display: flex; justify-content: center; margin-bottom: 2.5rem; }
             .action-btn { background-color: #d68a4c !important; color: #16151a !important; box-shadow: 0 10px 25px rgba(214,138,76,0.25) !important; border: 1px solid #d68a4c !important; border-radius: 5px !important; font-weight: 700 !important; font-size: 0.85rem !important; width: 240px !important; height: 3.2rem !important; line-height: 3.05rem !important; display: inline-block !important; text-decoration: none !important; transition: all 0.2s; }
             .action-btn:hover { background-color: #e6a05f !important; border-color: #e6a05f !important; transform: translateY(-2px); box-shadow: 0 15px 30px rgba(214,138,76,0.35) !important; }
@@ -198,25 +203,27 @@
                     </a>
                 <div class="header-right">
                     <div class="lang-dropdown" id="lang-dropdown">
-                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="Select language" aria-haspopup="true">EN <span class="lang-dropdown-caret">▾</span></button>
+                        <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="言語を選択" aria-haspopup="true">JA <span class="lang-dropdown-caret">▾</span></button>
                         <div class="lang-dropdown-menu" id="lang-dropdown-menu">
-                            <a href="../meatcam.html">日本語</a>
+                            <a href="../audioswitcher.html">English</a>
                         </div>
                     </div>
-                    <button class="menu-trigger-btn" id="menu-open" aria-label="Open menu"><span></span><span></span></button>
+                    <button class="menu-trigger-btn" id="menu-open" aria-label="メニューを開く"><span></span><span></span></button>
                 </div>
             </header>
 
             <nav class="side-nav" id="side-nav">
-                <button class="side-nav-close" id="menu-close" aria-label="Close menu">✕</button>
+                <button class="side-nav-close" id="menu-close" aria-label="メニューを閉じる">✕</button>
                 <div class="side-menu-list">
                     <div class="side-menu-section">
                         <span class="side-menu-category">Navigation</span>
                         <div class="side-menu-item"><a href="index.html" class="side-menu-link">HOME</a></div>
+                        <!-- 🛠 ... ✕ボタン枠なし仕様を同期 -->
                         <div class="side-menu-item"><a href="contact.html" class="side-menu-link">CONTACT</a></div>
                     </div>
                     <div class="side-menu-section">
                         <span class="side-menu-category">Applications</span>
+                        <!-- 🛠 バージョンバッジをLATEST表記に統一 -->
                         <div class="side-menu-item"><a href="audioswitcher.html" class="side-menu-link">AudioSwitcher <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="lumina.html" class="side-menu-link">Lumina <span class="nav-badge active">LATEST</span></a></div>
                         <div class="side-menu-item"><a href="meatcam.html" class="side-menu-link">MeatCam <span class="nav-badge active">IN DEV</span></a></div>
@@ -228,31 +235,31 @@
                 <div class="project-card">
                     <a href="index.html" class="card-back-btn">← BACK</a>
                     <header>
-                        <h1>MeatCam</h1>
-                        <span class="subtitle">A colorblind-friendly raw meat doneness visualizer for iOS</span>
+                        <h1>AudioSwitcher</h1>
+                        <span class="subtitle">Windowsのオーディオ出力を、ワンキーで瞬時に切り替え</span>
                     </header>
 
-                    <div class="main-image"><img src="../images/meatcam-icon.svg" alt="MeatCam icon" /></div>
+                    <div class="main-image"><img src="../images/audioswitcher-icon.svg" alt="AudioSwitcher icon" /></div>
 
                     <div class="content-section">
                         <h3>Overview</h3>
-                        <p>MeatCam is an iOS app that makes it easier for colorblind users to tell how well-cooked their meat is. Point your camera at it, and areas that still look raw get overlaid with diagonal hatching. Because the main cue is pattern (hatching) rather than color alone, it's easier to read for people with red/green color blindness.</p>
+                        <p>AudioSwitcherは、Windows環境においてディスプレイ内蔵スピーカー、ヘッドセット、外部DACなどのオーディオ再生デバイスをグローバルショートカットキーによって瞬時にルーティング変更するための、実用性を重視した常駐型ユーティリティソフトです。コントロールパネルやタスクバーを開く煩わしさを排除し、あらゆるゲームプレイ中やワークスペース環境からシームレスな出力切り替えを実現します。</p>
                     </div>
 
                     <div class="content-section">
                         <h3>Key Features</h3>
                         <div class="feature-grid">
                             <div class="feature-item">
-                                <strong>■ Diagonal hatching, not just color</strong>
-                                <p>Raw-looking regions are outlined with a hatching pattern, on top of a light amber fill. Even when color is hard to distinguish, the presence of the pattern makes doneness easy to judge.</p>
+                                <strong>■ タスクバー完全同期型のフェード通知UI</strong>
+                                <p>デバイス切り替えがトリガーされると、デスクトップ最右下のタスクバー時計エリアに完全にオーバーレイする形でスムーズなフェードUI通知を表示。作業や画面描画を邪魔しない極限のミニマリズムを設計思想としています。</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ A swappable detection design</strong>
-                                <p>Detection runs behind a <code>DonenessAnalyzing</code> protocol. Right now it's just a hue-based heuristic (<code>HeuristicDonenessAnalyzer</code>), but it's built so a Create ML–trained segmentation model can be swapped in later.</p>
+                                <strong>■ 同名デバイスの競合を完全に回避</strong>
+                                <p>Windows環境において多発する「同一製品名を持つオーディオデバイス」の誤認識問題を解決するため、Windows Core Audio API（pycaw）から各デバイス固有の永続的な識別子を直接取得して内部処理を行うため、外部ツールに頼らず100%正確なルーティングが維持されます。</p>
                             </div>
                             <div class="feature-item">
-                                <strong>■ Real-time analysis on a physical camera</strong>
-                                <p>Captures the camera feed with AVFoundation, throttling frames and downscaling to a coarse grid before analysis. This keeps heat and battery use in check while visualizing doneness in real time on-device.</p>
+                                <strong>■ 常駐化のインテリジェント自動登録</strong>
+                                <p>Windows起動時のスタートアップ登録ロジックを内蔵。スクリプト実行環境、またはコンパイルされた単一のバイナリ（EXE環境）を自動的に検出し、バックグラウンドでの安定稼働を即座に確立します。</p>
                             </div>
                         </div>
                     </div>
@@ -261,24 +268,19 @@
                         <h3>Package Structure</h3>
                         <div class="file-list">
                             <ul>
-                                <li><code>MeatCamApp.swift</code> — app entry point</li>
-                                <li><code>ContentView.swift</code> — main screen (camera feed + hatching overlay + legend)</li>
-                                <li><code>CameraManager.swift</code> — manages the camera capture session</li>
-                                <li><code>DonenessAnalyzer.swift</code> — the core "does this look raw?" logic</li>
-                                <li><code>CameraPreviewView.swift</code> — SwiftUI wrapper around the camera preview</li>
-                                <li><code>RawRegionOverlayView.swift</code> — draws the diagonal hatching</li>
+                                <li><code>AudioSwitcher.exe</code> — アプリケーション実行本体（デバイス制御まで単体で完結、外部ツール不要）</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="download-area">
                         <div class="action-container">
-                            <a href="https://github.com/CAIN218/meat-cam" class="action-btn" target="_blank" rel="noopener noreferrer">VIEW ON GITHUB</a>
+                            <a href="https://github.com/CAIN218/audio-switcher/releases/latest" class="action-btn" target="_blank" rel="noopener noreferrer">DOWNLOAD</a>
                         </div>
-                        <p class="download-meta">Requirements: iOS 17+ (a physical device with a camera, and building via Xcode)</p>
+                        <p class="download-meta">対応環境: Windows 10 / 11（64bit）</p>
                         <div class="warning-box">
-                            <h4>⚠️ Project still in development</h4>
-                            <p>Not distributed on the App Store yet — you'll need to build the source in Xcode and install it on your own device. The detection logic is an untuned heuristic, so it may not always match actual doneness.</p>
+                            <h4>⚠️ Windows SmartScreenに関するご注意</h4>
+                            <p>本ツールは個人開発によるデジタル署名未付与のバイナリファイル（.exe）であるため、初回起動時にWindowsの保護警告が表示される場合があります。保存、起動は自己責任において行ってください。安全性確認のため、全ソースコードはGitHubで完全公開されています。</p>
                         </div>
                     </div>
                 </div>
@@ -286,7 +288,7 @@
 
             <footer id="custom-footer">
                 <a href="https://github.com/CAIN218?tab=repositories" class="footer-github-link icon brands fa-github" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a>
-                <div class="disclaimer-box"><p>Disclaimer: All tools and scripts distributed on this website are created solely on the responsibility of the individual developer. The developer accepts no liability whatsoever for any data loss, system malfunction, or other damage arising from the use of these tools. Use them at your own risk.</p></div>
+                <div class="disclaimer-box"><p>【免責事項】本ウェブサイトで配布しているツールおよびスクリプトはすべて開発個人の責任において作成されたものです。万が一、本ツールの使用によって生じたデータ破損やシステム不具合等のいかなる損害についても、開発者は一切の責任を負いません。導入は自己責任でお願いいたします。</p></div>
                 <div class="footer-copyright">&copy; Yuga Tanaka. All Rights Reserved.</div>
             </footer>
         </div>
@@ -333,7 +335,7 @@
                         var sTop = window.scrollY, dHeight = document.documentElement.scrollHeight - window.innerHeight;
                         var ratio = dHeight > 0 ? sTop / dHeight : 0;
                         parallaxBg.style.setProperty('background-position', 'center ' + (40 + (ratio * 20)) + '%', 'important');
-
+                        
                         if (sTop > 0) {
                             triggerHeader();
                         }
