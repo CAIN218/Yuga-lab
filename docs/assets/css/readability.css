@@ -1,0 +1,162 @@
+/* ==========================================================================
+   readability.css — 文字・配色・画像の見やすさ改善
+   各ページの <style> より後に読み込み、上書きする。
+   ========================================================================== */
+
+/* ---- 1. 背景写真：明るい雲の上でも白文字が読めるよう暗いオーバーレイを重ねる ---- */
+#custom-parallax-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(11, 14, 17, 0.62) 0%,
+        rgba(11, 14, 17, 0.48) 45%,
+        rgba(11, 14, 17, 0.72) 100%
+    );
+    pointer-events: none;
+}
+
+/* ---- 2. フォント：和文フォールバックを明示し、行間を確保 ---- */
+html, body, #wrapper {
+    font-family: "Inter", "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+                 "Yu Gothic UI", "Meiryo", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+html[lang="ja"] body,
+html[lang="ja"] .posts article p,
+html[lang="ja"] .project-card p {
+    line-height: 1.9;
+    line-break: strict;
+    overflow-wrap: anywhere;
+}
+
+/* ---- 3. 本文：両端揃えをやめる（単語間が不自然に開く）／サイズと色を調整 ---- */
+.posts article p,
+.project-card p {
+    text-align: left !important;
+}
+.posts article p {
+    font-size: 1rem !important;
+    line-height: 1.85 !important;
+    color: #2b3440 !important;
+}
+.project-card p {
+    font-size: 1rem !important;
+    color: #2b3440 !important;
+}
+.feature-item p {
+    color: #3b4654 !important;
+    font-size: 0.95rem !important;
+}
+.file-list li {
+    font-size: 0.95rem !important;
+    color: #2b3440 !important;
+}
+
+/* ---- 4. カード内の補助テキスト：薄いグレー（コントラスト不足）を濃くする ---- */
+.posts article .date {
+    color: #64748b !important;       /* 白地で 4.8:1 */
+    font-size: 0.8rem !important;
+}
+.posts article .subtitle {
+    color: #3b4654 !important;
+    font-size: 0.85rem !important;
+}
+.posts article h2 {
+    font-size: 1.4rem !important;
+}
+.project-card .subtitle {
+    color: #475569 !important;
+    font-size: 0.9rem !important;
+}
+.card-back-btn {
+    color: #64748b !important;
+    font-size: 0.8rem !important;
+}
+.card-back-btn:hover {
+    color: #11161b !important;
+}
+.download-meta {
+    color: #475569 !important;
+    font-size: 0.85rem !important;
+}
+.warning-box p {
+    font-size: 0.85rem !important;
+}
+.warning-box h4 {
+    font-size: 0.9rem !important;
+}
+
+/* ---- 5. ヒーロー：キャッチコピーと矢印ボタンを読みやすく ---- */
+#intro p {
+    color: #ffffff !important;
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 0 3px rgba(0, 0, 0, 0.6) !important;
+}
+#intro .button {
+    background-color: rgba(11, 14, 17, 0.35) !important;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.9) !important;
+    color: #ffffff !important;
+}
+#intro .button:hover {
+    background-color: rgba(255, 255, 255, 0.18) !important;
+}
+
+/* ---- 6. ヘッダー／メニュー：薄すぎる文字を濃くし、小さい文字を大きく ---- */
+.lang-dropdown-trigger {
+    color: rgba(255, 255, 255, 0.85) !important;
+    border-color: rgba(255, 255, 255, 0.32) !important;
+    font-size: 0.75rem !important;
+}
+.lang-dropdown-trigger:hover {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+}
+.lang-dropdown-menu a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-size: 0.8rem !important;
+}
+.menu-trigger-btn span {
+    height: 2px !important;
+}
+.side-menu-category {
+    color: #cbd5e1 !important;
+    font-size: 0.75rem !important;
+}
+.side-menu-link {
+    opacity: 1 !important;
+    font-size: 1rem !important;
+}
+.nav-badge {
+    font-size: 0.7rem !important;
+}
+
+/* ---- 7. フッター：背景写真の上でも読める文字サイズ・色 ---- */
+.disclaimer-box p {
+    text-align: center !important;
+    color: #f1f5f9 !important;
+    font-size: 0.82rem !important;
+    line-height: 1.8 !important;
+}
+.footer-copyright {
+    color: #f1f5f9 !important;
+    font-size: 0.85rem !important;
+}
+
+/* ---- 8. 画像：アイコン画像(2:1)はスマホでも切り取らず全体を見せる ---- */
+.posts article .image img {
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    height: auto;
+}
+
+/* ---- 9. キーボード操作時のフォーカスを見えるように ---- */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid #d68a4c;
+    outline-offset: 3px;
+}
