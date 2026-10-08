@@ -160,3 +160,106 @@ button:focus-visible {
     outline: 2px solid #d68a4c;
     outline-offset: 3px;
 }
+
+/* ==========================================================================
+   10. ヘッダーの常時表示ナビ／プラットフォームタグ／Aboutブロック
+   ========================================================================== */
+.header-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-right: 0.4rem;
+}
+.header-links a {
+    color: rgba(255, 255, 255, 0.88) !important;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none !important;
+    border-bottom: none !important;
+    transition: color 0.2s ease;
+}
+.header-links a:hover { color: #ffffff !important; }
+@media screen and (max-width: 736px) {
+    .header-links { display: none; }   /* スマホはハンバーガーメニューに任せる */
+}
+
+.platform-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+}
+.platform-tags .tag {
+    display: inline-block;
+    padding: 0.15rem 0.7rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.7;
+    letter-spacing: 0.03em;
+    color: #334155 !important;
+    background: #f1f5f9;
+    text-decoration: none !important;
+}
+.platform-tags .tag-link { border-bottom: 1px solid #cbd5e1 !important; }
+.platform-tags .tag-link:hover {
+    background: #11161b;
+    border-color: #11161b !important;
+    color: #ffffff !important;
+}
+
+.about-block {
+    max-width: 760px;
+    margin: 6rem auto 0 auto;
+    text-align: center;
+    color: #f1f5f9;
+}
+.about-block h2 {
+    color: #ffffff !important;
+    font-size: 1.1rem !important;
+    letter-spacing: 0.18em;
+    margin-bottom: 1.2rem;
+}
+.about-block p {
+    color: #f1f5f9 !important;
+    font-size: 1rem;
+    line-height: 1.95;
+    text-align: left;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+.about-block .about-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.about-block .about-btn {
+    display: inline-block;
+    padding: 0.55rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 5px;
+    color: #ffffff !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none !important;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.about-block .about-btn:hover {
+    background: #ffffff;
+    color: #11161b !important;
+}
+
+/* テーマの `#main > *`（余白・上線）に負けないよう、詳細度を上げて中央寄せを確定 */
+#main > .about-block {
+    margin: 6rem auto 0 auto;
+    padding: 0 1rem;
+    border-top: 0;
+    max-width: 760px;
+}
+
+/* 日本語は斜体にすると崩れて読みにくいので、キャッチコピーを正体にする */
+html[lang="ja"] #intro p { font-style: normal !important; letter-spacing: 0.08em; }

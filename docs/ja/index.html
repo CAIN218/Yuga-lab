@@ -4,7 +4,7 @@
         <title>Yuga's Lab</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Yuga's Lab — 個人開発のWindows向けユーティリティソフトを公開しています。" />
+        <meta name="description" content="Yuga's Lab — 個人開発の、Windows・iOS向けの小さな実用アプリを公開しています。ソースコードはGitHubで公開。" />
         <link rel="stylesheet" href="../assets/css/main.css" />
         <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
         <noscript><style>
@@ -256,6 +256,19 @@
             .footer-copyright { color: #e2e8f0 !important; font-size: 0.78rem !important; font-weight: 600 !important; letter-spacing: 0.03em !important; margin-top: 0.6rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
         </style>
         <link rel="stylesheet" href="../assets/css/readability.css" />
+        <link rel="icon" href="../images/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate" hreflang="en" href="https://cain218.github.io/Yuga-lab/index.html" />
+        <link rel="alternate" hreflang="ja" href="https://cain218.github.io/Yuga-lab/ja/index.html" />
+        <link rel="alternate" hreflang="x-default" href="https://cain218.github.io/Yuga-lab/index.html" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Yuga's Lab" />
+        <meta property="og:title" content="Yuga's Lab" />
+        <meta property="og:description" content="Yuga's Lab — 個人開発の、Windows・iOS向けの小さな実用アプリを公開しています。ソースコードはGitHubで公開。" />
+        <meta property="og:url" content="https://cain218.github.io/Yuga-lab/ja/index.html" />
+        <meta property="og:image" content="https://cain218.github.io/Yuga-lab/images/og.jpg" />
+        <meta property="og:locale" content="ja_JP" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script src="../assets/js/lang-pref.js" defer></script>
     </head>
     <body class="is-preload">
         <div id="custom-parallax-bg"></div>
@@ -277,6 +290,7 @@
                     </svg>
                 </a>
                 <div class="header-right">
+                    <nav class="header-links" aria-label="Main"><a href="#main">アプリ</a><a href="contact.html">お問い合わせ</a></nav>
                     <div class="lang-dropdown" id="lang-dropdown">
                         <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="言語を選択" aria-haspopup="true">🌐 Language <span class="lang-dropdown-caret">▾</span></button>
                         <div class="lang-dropdown-menu" id="lang-dropdown-menu">
@@ -318,8 +332,8 @@
                     </defs>
                     <text x="210" y="112">Yuga's Lab</text>
                 </svg>
-                <p>A playground for code and ideas.</p>
-                <ul class="actions"><li><a href="#main" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li></ul>
+                <p>Windows と iOS 向けの、小さくて実用的なツールを作っています。</p>
+                <ul class="actions"><li><a href="#main" class="button icon solid solo fa-arrow-down scrolly">アプリを見る</a></li></ul>
             </div>
 
             <div id="main">
@@ -330,6 +344,7 @@
                             <span class="date">2026 / 07 / 19</span>
                             <h2><a href="lumina.html">Lumina</a></h2>
                             <span class="subtitle">タスクバーからワンクリックで、複数モニターの明るさを調整</span>
+                            <span class="platform-tags"><span class="tag">Windows</span><a class="tag tag-link" href="https://github.com/CAIN218/Lumina" target="_blank" rel="noopener noreferrer">GitHubでソースを見る</a></span>
                         </header>
                         <a href="lumina.html" class="image fit"><img src="../images/lumina-icon.svg" alt="Lumina icon" /></a>
                         <p>タスクバーのアイコンから、複数モニターの明るさをモダンなスライダーパネルでワンクリック調整。</p>
@@ -343,6 +358,7 @@
                             <span class="date">2026 / 07 / 18</span>
                             <h2><a href="meatcam.html">MeatCam</a></h2>
                             <span class="subtitle">色弱の方でも焼け具合がひと目でわかるカメラアプリ</span>
+                            <span class="platform-tags"><span class="tag">iOS</span><a class="tag tag-link" href="https://github.com/CAIN218/meat-cam" target="_blank" rel="noopener noreferrer">GitHubでソースを見る</a></span>
                         </header>
                         <a href="meatcam.html" class="image fit"><img src="../images/meatcam-icon.svg" alt="MeatCam icon" /></a>
                         <p>色弱の方向けに、カメラをかざすとまだ生っぽい部分に斜線ハッチングを重ねて可視化するiOSアプリ。</p>
@@ -356,6 +372,7 @@
                             <span class="date">2026 / 07 / 18</span>
                             <h2><a href="audioswitcher.html">AudioSwitcher</a></h2>
                             <span class="subtitle">ワンキーでオーディオ出力をパッと切り替え</span>
+                            <span class="platform-tags"><span class="tag">Windows</span><a class="tag tag-link" href="https://github.com/CAIN218/audio-switcher" target="_blank" rel="noopener noreferrer">GitHubでソースを見る</a></span>
                         </header>
                         <a href="audioswitcher.html" class="image fit"><img src="../images/audioswitcher-icon.svg" alt="AudioSwitcher icon" /></a>
                         <p>ショートカットキーひとつでWindowsの音声出力を瞬時に切り替える軽量ツール。</p>
@@ -364,6 +381,12 @@
                         </ul>
                     </article>
 
+                </section>
+
+                <section class="about-block" id="about">
+                    <h2>このサイトについて</h2>
+                    <p>Yuga's Lab は、Yuga Tanaka が作った小さなアプリを公開しているサイトです。Windows 向けユーティリティ2本と iOS アプリ1本を公開していて、どれもソースコードはGitHubで公開しているので、動かすものの中身を自分で確認できます。不具合報告やご意見もお待ちしています。</p>
+                    <p class="about-links"><a class="about-btn" href="https://github.com/CAIN218" target="_blank" rel="noopener noreferrer">GitHubプロフィール</a><a class="about-btn" href="contact.html">お問い合わせ</a></p>
                 </section>
             </div>
 

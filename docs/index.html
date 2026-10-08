@@ -3,8 +3,9 @@
     <head>
         <title>Yuga's Lab</title>
         <meta charset="utf-8" />
+        <script>try{if(!localStorage.getItem('yl-lang')&&/^ja/i.test(navigator.language||'')){location.replace('ja/index.html');}}catch(e){}</script>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Yuga's Lab — indie Windows utility software, built and shared here." />
+        <meta name="description" content="Yuga's Lab — small, focused apps for Windows and iOS by Yuga Tanaka. Source code is public on GitHub." />
         <link rel="stylesheet" href="assets/css/main.css" />
         <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
         <noscript><style>
@@ -254,6 +255,19 @@
             .footer-copyright { color: #e2e8f0 !important; font-size: 0.78rem !important; font-weight: 600 !important; letter-spacing: 0.03em !important; margin-top: 0.6rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
         </style>
         <link rel="stylesheet" href="assets/css/readability.css" />
+        <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate" hreflang="en" href="https://cain218.github.io/Yuga-lab/index.html" />
+        <link rel="alternate" hreflang="ja" href="https://cain218.github.io/Yuga-lab/ja/index.html" />
+        <link rel="alternate" hreflang="x-default" href="https://cain218.github.io/Yuga-lab/index.html" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Yuga's Lab" />
+        <meta property="og:title" content="Yuga's Lab" />
+        <meta property="og:description" content="Yuga's Lab — small, focused apps for Windows and iOS by Yuga Tanaka. Source code is public on GitHub." />
+        <meta property="og:url" content="https://cain218.github.io/Yuga-lab/index.html" />
+        <meta property="og:image" content="https://cain218.github.io/Yuga-lab/images/og.jpg" />
+        <meta property="og:locale" content="en_US" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <script src="assets/js/lang-pref.js" defer></script>
     </head>
     <body class="is-preload">
         <div id="custom-parallax-bg"></div>
@@ -275,6 +289,7 @@
                         </svg>
                     </a>
                 <div class="header-right">
+                    <nav class="header-links" aria-label="Main"><a href="#main">Apps</a><a href="contact.html">Contact</a></nav>
                     <div class="lang-dropdown" id="lang-dropdown">
                         <button class="lang-dropdown-trigger" id="lang-dropdown-trigger" aria-label="Select language" aria-haspopup="true">🌐 Language <span class="lang-dropdown-caret">▾</span></button>
                         <div class="lang-dropdown-menu" id="lang-dropdown-menu">
@@ -315,8 +330,8 @@
                     </defs>
                     <text x="210" y="112">Yuga's Lab</text>
                 </svg>
-                <p>A playground for code and ideas.</p>
-                <ul class="actions"><li><a href="#main" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li></ul>
+                <p>Small, focused tools for Windows and iOS, built by Yuga Tanaka.</p>
+                <ul class="actions"><li><a href="#main" class="button icon solid solo fa-arrow-down scrolly">View apps</a></li></ul>
             </div>
 
             <div id="main">
@@ -327,6 +342,7 @@
                             <span class="date">2026 / 07 / 19</span>
                             <h2><a href="lumina.html">Lumina</a></h2>
                             <span class="subtitle">Tray-Resident Brightness Control for Multi-Monitor Setups</span>
+                            <span class="platform-tags"><span class="tag">Windows</span><a class="tag tag-link" href="https://github.com/CAIN218/Lumina" target="_blank" rel="noopener noreferrer">Source on GitHub</a></span>
                         </header>
                         <a href="lumina.html" class="image fit"><img src="images/lumina-icon.svg" alt="Lumina icon" /></a>
                         <p>Adjust brightness across multiple monitors from a modern slider panel, one click away from the taskbar.</p>
@@ -340,6 +356,7 @@
                             <span class="date">2026 / 07 / 18</span>
                             <h2><a href="meatcam.html">MeatCam</a></h2>
                             <span class="subtitle">Raw Meat Doneness Visualizer for the Colorblind</span>
+                            <span class="platform-tags"><span class="tag">iOS</span><a class="tag tag-link" href="https://github.com/CAIN218/meat-cam" target="_blank" rel="noopener noreferrer">Source on GitHub</a></span>
                         </header>
                         <a href="meatcam.html" class="image fit"><img src="images/meatcam-icon.svg" alt="MeatCam icon" /></a>
                         <p>An iOS app for the colorblind that overlays diagonal hatching on parts of your camera view that still look raw.</p>
@@ -353,6 +370,7 @@
                             <span class="date">2026 / 07 / 18</span>
                             <h2><a href="audioswitcher.html">AudioSwitcher</a></h2>
                             <span class="subtitle">Switch Windows Audio Devices Instantly</span>
+                            <span class="platform-tags"><span class="tag">Windows</span><a class="tag tag-link" href="https://github.com/CAIN218/audio-switcher" target="_blank" rel="noopener noreferrer">Source on GitHub</a></span>
                         </header>
                         <a href="audioswitcher.html" class="image fit"><img src="images/audioswitcher-icon.svg" alt="AudioSwitcher icon" /></a>
                         <p>A lightweight tool that switches your Windows audio output instantly with a single shortcut key.</p>
@@ -361,6 +379,12 @@
                         </ul>
                     </article>
 
+                </section>
+
+                <section class="about-block" id="about">
+                    <h2>About</h2>
+                    <p>Yuga's Lab is where I publish the small apps I build: two Windows utilities and an iOS app. The source code of each is public on GitHub, so you can read exactly what you are running. Bug reports and feedback are welcome.</p>
+                    <p class="about-links"><a class="about-btn" href="https://github.com/CAIN218" target="_blank" rel="noopener noreferrer">GitHub profile</a><a class="about-btn" href="contact.html">Contact me</a></p>
                 </section>
             </div>
 
