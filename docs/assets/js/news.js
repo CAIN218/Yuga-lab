@@ -9,6 +9,13 @@
 window.YUGALAB_NEWS = [
     {
         date: "2026-10-10",
+        tag: "AudioSwitcher",
+        en: "Released AudioSwitcher 1.7.0 with a new interface, animated help, and a choice of which devices appear in Multi-Device.",
+        ja: "AudioSwitcher 1.7.0 を公開しました。新しいUI、アニメーションつきのヘルプ、Multi-Device に表示するデバイスの選択に対応しています。",
+        link: "audioswitcher.html"
+    },
+    {
+        date: "2026-10-10",
         tag: "Site",
         en: "Redesigned the website and added this News section.",
         ja: "サイトのデザインをリニューアルし、お知らせ欄を追加しました。",
