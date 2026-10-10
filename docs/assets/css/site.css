@@ -131,7 +131,7 @@ body:not(.page-home) #custom-parallax-bg::after {
 
 /* ---------- Home: intro ---------- */
 #intro {
-    height: 92vh; min-height: 560px; width: 100%;
+    height: 100vh; height: 100svh; min-height: 560px; width: 100%;
     padding: 0 var(--gutter);
     display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
 }
@@ -201,6 +201,9 @@ body:not(.page-home) #custom-parallax-bg::after {
 .posts article:hover .more::after { transform: translateX(3px); }
 
 /* ---------- Home: sections (News / Apps / About) ---------- */
+/* Everything below the intro stays hidden until the signature animation ends or the visitor scrolls. */
+.page-home #main, .page-home #custom-footer { opacity: 0; transition: opacity 0.8s ease; }
+.page-home.intro-done #main, .page-home.intro-done #custom-footer { opacity: 1; }
 #main { display: flex; flex-direction: column; gap: 72px; }
 .home-section { scroll-margin-top: 96px; }
 .section-title {
@@ -333,7 +336,7 @@ textarea.form-control { min-height: 160px; resize: vertical; }
     .header-links { display: none; }
     .header-right { gap: 18px; }
     .menu-trigger-btn { display: flex; }
-    #intro { height: 86vh; min-height: 480px; }
+    #intro { min-height: 480px; }
     .brand-logo-svg { width: 320px; height: 100px; }
     #intro p { font-size: 16px; }
     .posts { grid-template-columns: 1fr; }

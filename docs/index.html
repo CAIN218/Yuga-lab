@@ -20,7 +20,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Monsieur+La+Doulaise&display=swap" />
         <link rel="stylesheet" href="assets/css/site.css" />
-        <noscript><style>.global-header, .posts article, .project-card { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }</style></noscript>
+        <noscript><style>.global-header, .posts article, .project-card, .page-home #main, .page-home #custom-footer { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }</style></noscript>
     </head>
     <body class="page-home">
         <div id="custom-parallax-bg"></div>
@@ -215,6 +215,7 @@
                     if (!headerTriggered && header) {
                         headerTriggered = true;
                         header.classList.add('show-header');
+                        document.body.classList.add('intro-done');
                     }
                 }
 
