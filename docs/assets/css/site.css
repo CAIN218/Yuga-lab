@@ -282,6 +282,7 @@ a.news-row .news-text::after { content: "→"; margin-left: 0.4em; color: var(--
 }
 .feature-item strong { display: block; font-size: 16px; font-weight: 600; margin-bottom: 6px; }
 .feature-item p { font-size: 14.5px; }
+.feature-media { display: block; width: 100%; max-width: 560px; height: auto; margin-top: 14px; border-radius: 10px; border: 1px solid var(--line); }
 .file-list ul { list-style: none; padding: 0; display: grid; gap: 10px; }
 .file-list li { color: var(--text-soft); font-size: 15px; }
 .download-area { margin-top: 52px; padding-top: 40px; border-top: 1px solid var(--line); text-align: center; }

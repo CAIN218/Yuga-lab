@@ -8,6 +8,20 @@
  */
 window.YUGALAB_NEWS = [
     {
+        date: "2026-10-11",
+        tag: "Lumina",
+        en: "Released Lumina 1.1.0 with a refreshed design, a tray icon that adapts to your taskbar, automatic updates, and English/Japanese support.",
+        ja: "Lumina 1.1.0 を公開しました。デザインを一新し、タスクバーの明暗に合わせて切り替わるトレイアイコン、自動アップデート、英語・日本語の切り替えに対応しました。",
+        link: "lumina.html"
+    },
+    {
+        date: "2026-10-11",
+        tag: "AudioSwitcher",
+        en: "Released AudioSwitcher 1.7.2, which lets you choose English or Japanese for the whole app.",
+        ja: "AudioSwitcher 1.7.2 を公開しました。アプリ全体の表示を英語・日本語から選べるようになりました。",
+        link: "audioswitcher.html"
+    },
+    {
         date: "2026-10-10",
         tag: "AudioSwitcher",
         en: "Released AudioSwitcher 1.7.1 with a redesigned switching popup and a fix for a blank window right after launch.",
